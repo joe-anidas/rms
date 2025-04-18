@@ -25,7 +25,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $config['base_url'] = 'https://rms-vq09.onrender.com/';
 $config['sess_driver'] = 'files';
-$config['sess_save_path'] = APPPATH . 'cache/sessions';
+$config['sess_save_path'] = sys_get_temp_dir();  // <-- Works on Render!
+
 
 // system temp dir (safe default)
 
