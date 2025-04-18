@@ -25,25 +25,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $config['base_url'] = 'https://rms-vq09.onrender.com/';
 
-$config['sess_driver'] = 'files';
-$config['sess_enabled'] = FALSE;  // Disable sessions completely
+$config['sess_driver'] = 'database';
 $config['sess_cookie_name'] = 'ci_session';
-$config['sess_samesite'] = 'Lax';
-$config['sess_expiration'] = 7200;
-$config['sess_save_path'] = NULL;
+$config['sess_expiration'] = 7200; // 2 hours
+$config['sess_save_path'] = 'ci_sessions'; // This must match your table name
 $config['sess_match_ip'] = FALSE;
 $config['sess_time_to_update'] = 300;
 $config['sess_regenerate_destroy'] = FALSE;
-
-// $config['sess_driver'] = 'files';
-// $config['sess_cookie_name'] = 'ci_session';
-// $config['sess_expiration'] = 7200;
-// $config['sess_save_path'] = sys_get_temp_dir() . '/ci_sessions/';  // Added subdirectory
-// $config['sess_match_ip'] = FALSE;
-// $config['sess_time_to_update'] = 300;
-// $config['sess_regenerate_destroy'] = FALSE;
-
-// system temp dir (safe default)
 
 /*
 |--------------------------------------------------------------------------
