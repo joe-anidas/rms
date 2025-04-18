@@ -23,7 +23,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://localhost/rms/';
+$config['base_url'] = 'https://rms-vq09.onrender.com/';
+$config['sess_driver'] = 'files';
+$config['sess_save_path'] = APPPATH . 'cache/sessions';
+
+// system temp dir (safe default)
 
 /*
 |--------------------------------------------------------------------------
