@@ -130,7 +130,35 @@
           <a class="dropdown-item" href="<?php echo base_url('staff_details'); ?>">Add New Staff</a>
           <a class="dropdown-item" href="<?php echo base_url('staff_list'); ?>">View All Staff</a>
         </div>
-      </li> 
+      </li>
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdown06" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="zmdi zmdi-money"></i> <span>Transactions & Payments</span>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdown06">
+          <a class="dropdown-item" href="<?php echo base_url('transactions/record_payment'); ?>">Record Payment</a>
+          <a class="dropdown-item" href="<?php echo base_url('transactions/payment_schedules'); ?>">Payment Schedules</a>
+          <a class="dropdown-item" href="<?php echo base_url('transactions/create_schedule'); ?>">Create Schedule</a>
+          <a class="dropdown-item" href="<?php echo base_url('transactions/pending_payments'); ?>">Pending Payments</a>
+          <a class="dropdown-item" href="<?php echo base_url('transactions'); ?>">All Transactions</a>
+        </div>
+      </li>
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdown07" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="zmdi zmdi-chart"></i> <span>Reports & Analytics</span>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdown07">
+          <a class="dropdown-item" href="<?php echo base_url('reports'); ?>">Dashboard Summary</a>
+          <a class="dropdown-item" href="<?php echo base_url('reports/sales_report'); ?>">Sales Report</a>
+          <a class="dropdown-item" href="<?php echo base_url('reports/booking_report'); ?>">Booking Report</a>
+          <a class="dropdown-item" href="<?php echo base_url('reports/customer_analytics'); ?>">Customer Analytics</a>
+          <a class="dropdown-item" href="<?php echo base_url('reports/property_performance'); ?>">Property Performance</a>
+          <a class="dropdown-item" href="<?php echo base_url('reports/staff_performance'); ?>">Staff Performance</a>
+          <a class="dropdown-item" href="<?php echo base_url('reports/financial_summary'); ?>">Financial Summary</a>
+        </div>
+      </li>
     </ul>
 
 

@@ -526,7 +526,13 @@ class Garden_model extends CI_Model {
             $this->db->select('plots.*, gardens.garden_name, gardens.district, gardens.taluk_name, gardens.village_town_name');
             $this->db->from('plots');
             $this->db->join('gardens', 'gardens.id = plots.garden_id');
-            $this->db->where('plots.status', $status);
+            
+            if (is_array($status)) {
+                $this->db->where_in('plots.status', $status);
+            } else {
+                $this->db->where('plots.status', $status);
+            }
+            
             $this->db->order_by('plots.created_at', 'DESC');
             
             $result = $this->db->get();
@@ -539,6 +545,113 @@ class Garden_model extends CI_Model {
             
         } catch (Exception $e) {
             error_log('Error in get_plots_by_status: ' . $e->getMessage());
+            return array();
+        }
+    }
+
+    public function get_plots_by_garden($garden_id) {
+        try {
+            if (!$this->db->table_exists('plots')) {
+                $this->create_plots_table();
+            }
+            
+            $this->db->select('plots.*, gardens.garden_name, gardens.district, gardens.taluk_name, gardens.village_town_name');
+            $this->db->from('plots');
+            $this->db->join('gardens', 'gardens.id = plots.garden_id');
+            $this->db->where('plots.garden_id', $garden_id);
+            $this->db->order_by('plots.plot_no', 'ASC');
+            
+            $result = $this->db->get();
+            
+            if ($result->num_rows() > 0) {
+                return $result->result();
+            } else {
+                return array();
+            }
+            
+        } catch (Exception $e) {
+            error_log('Error in get_plots_by_garden: ' . $e->getMessage());
+            return array();
+        }
+    }
+
+    public function search_plots($search_term, $garden_id = null, $status = null) {
+        try {
+            if (!$this->db->table_exists('plots')) {
+                $this->create_plots_table();
+            }
+            
+            $this->db->select('plots.*, gardens.garden_name, gardens.district, gardens.taluk_name, gardens.village_town_name');
+            $this->db->from('plots');
+            $this->db->join('gardens', 'gardens.id = plots.garden_id');
+            
+            if ($search_term) {
+                $this->db->group_start();
+                $this->db->like('plots.plot_no', $search_term);
+                $this->db->or_like('plots.customer_name', $search_term);
+                $this->db->or_like('plots.customer_phone', $search_term);
+                $this->db->or_like('gardens.garden_name', $search_term);
+                $this->db->group_end();
+            }
+            
+            if ($garden_id) {
+                $this->db->where('plots.garden_id', $garden_id);
+            }
+            
+            if ($status) {
+                $this->db->where('plots.status', $status);
+            }
+            
+            $this->db->order_by('plots.created_at', 'DESC');
+            
+            $result = $this->db->get();
+            
+            if ($result->num_rows() > 0) {
+                return $result->result();
+            } else {
+                return array();
+            }
+            
+        } catch (Exception $e) {
+            error_log('Error in search_plots: ' . $e->getMessage());
+            return array();
+        }
+    }
+
+    public function assign_staff_to_plot($plot_id, $staff_id) {
+        try {
+            $this->db->where('id', $plot_id);
+            return $this->db->update('plots', array('assigned_staff_id' => $staff_id));
+            
+        } catch (Exception $e) {
+            error_log('Error assigning staff to plot: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function get_plot_assignments() {
+        try {
+            if (!$this->db->table_exists('plots')) {
+                $this->create_plots_table();
+            }
+            
+            $this->db->select('plots.*, gardens.garden_name, staff.employee_name, staff.designation');
+            $this->db->from('plots');
+            $this->db->join('gardens', 'gardens.id = plots.garden_id');
+            $this->db->join('staff', 'staff.id = plots.assigned_staff_id', 'left');
+            $this->db->where('plots.assigned_staff_id IS NOT NULL');
+            $this->db->order_by('staff.employee_name', 'ASC');
+            
+            $result = $this->db->get();
+            
+            if ($result->num_rows() > 0) {
+                return $result->result();
+            } else {
+                return array();
+            }
+            
+        } catch (Exception $e) {
+            error_log('Error in get_plot_assignments: ' . $e->getMessage());
             return array();
         }
     }
