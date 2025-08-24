@@ -17,27 +17,25 @@
     </div>
     <div class="card-body">
         <h5 class="card-title">Add Nager/Garden Profile</h5>
-        <form>
+        <form id="gardenProfileForm">
             <div class="row row-group m-0">
                 <!-- First Row of Inputs -->
                 <div class="col-12 col-lg-4">
                     <div class="form-group">
                         <label>Nagar/Garden Name</label>
-                        <input type="text" class="form-control" placeholder="Enter Name">
+                        <input type="text" class="form-control" name="garden_name" placeholder="Enter Name" value="Sample Garden" required>
                     </div>
                 </div>
                 <div class="col-12 col-lg-4">
                     <div class="form-group">
                         <label>District</label>
-                        <select class="form-control">
-                            <option>Select District</option>
-                        </select>
+                        <input type="text" class="form-control" name="district" placeholder="Enter District" value="Chennai">
                     </div>
                 </div>
                 <div class="col-12 col-lg-4">
                     <div class="form-group">
                         <label>Taluk Name</label>
-                        <input type="text" class="form-control" placeholder="Enter Taluk Name">
+                        <input type="text" class="form-control" name="taluk_name" placeholder="Enter Taluk Name" value="Tambaram">
                     </div>
                 </div>
             </div>
@@ -48,19 +46,19 @@
                 <div class="col-12 col-lg-4">
                     <div class="form-group">
                         <label>Village/Town Name</label>
-                        <input type="text" class="form-control" placeholder="Enter Village/Town Name">
+                        <input type="text" class="form-control" name="village_town_name" placeholder="Enter Village/Town Name" value="Tambaram">
                     </div>
                 </div>
                 <div class="col-12 col-lg-4">
                     <div class="form-group">
                         <label>Patta / Chitta No</label>
-                        <input type="text" class="form-control" placeholder="Enter Patta/Chitta No">
+                        <input type="text" class="form-control" name="patta_chitta_no" placeholder="Enter Patta/Chitta No" value="P123456">
                     </div>
                 </div>
                 <div class="col-12 col-lg-4">
                     <div class="form-group">
                         <label>T.S.No</label>
-                        <input type="text" class="form-control" placeholder="Enter T.S.No">
+                        <input type="text" class="form-control" name="ts_no" placeholder="Enter T.S.No" value="TS001">
                     </div>
                 </div>
             </div>
@@ -70,19 +68,19 @@
                 <div class="col-12 col-lg-4">
                     <div class="form-group">
                         <label>Ward/Block</label>
-                        <input type="text" class="form-control" placeholder="Enter Ward/Block">
+                        <input type="text" class="form-control" name="ward_block" placeholder="Enter Ward/Block" value="Ward 1">
                     </div>
                 </div>
                 <div class="col-12 col-lg-4">
                     <div class="form-group">
                         <label>Land Mark</label>
-                        <input type="text" class="form-control" placeholder="Enter Land Mark">
+                        <input type="text" class="form-control" name="land_mark" placeholder="Enter Land Mark" value="Near Bus Stand">
                     </div>
                 </div>
                 <div class="col-12 col-lg-4">
                     <div class="form-group">
                         <label>DTCP No</label>
-                        <input type="text" class="form-control" placeholder="Enter DTCP No">
+                        <input type="text" class="form-control" name="dtcp_no" placeholder="Enter DTCP No" value="DTCP001">
                     </div>
                 </div>
             </div>
@@ -92,19 +90,19 @@
                 <div class="col-12 col-lg-4">
                     <div class="form-group">
                         <label>RERA No</label>
-                        <input type="text" class="form-control" placeholder="Enter RERA No">
+                        <input type="text" class="form-control" name="rera_no" placeholder="Enter RERA No" value="RERA001">
                     </div>
                 </div>
                 <div class="col-12 col-lg-4">
                     <div class="form-group">
                         <label>Nagar/Garden Total Extension in Sqft/Sqmt</label>
-                        <input type="text" class="form-control" placeholder="Enter Total Extension">
+                        <input type="text" class="form-control" name="total_extension" placeholder="Enter Total Extension" value="50000">
                     </div>
                 </div>
                 <div class="col-12 col-lg-4">
                     <div class="form-group">
                         <label>Nagar/Garden Total No of Plots</label>
-                        <input type="text" class="form-control" placeholder="Enter Total No of Plots">
+                        <input type="text" class="form-control" name="total_plots" placeholder="Enter Total No of Plots" value="100">
                     </div>
                 </div>
             </div>
@@ -114,19 +112,19 @@
                 <div class="col-12 col-lg-4">
                     <div class="form-group">
                         <label>Nagar/Garden Sale Extension in Sqft/Sqmt</label>
-                        <input type="text" class="form-control" placeholder="Nagar/Garden Sale Extension in Sqft/Sqmt">
+                        <input type="text" class="form-control" name="sale_extension" placeholder="Nagar/Garden Sale Extension in Sqft/Sqmt" value="45000">
                     </div>
                 </div>
                 <div class="col-12 col-lg-4">
                     <div class="form-group">
                         <label>Park Extension in Sqft/Sqmt</label>
-                        <input type="text" class="form-control" placeholder="Park Extension in Sqft/Sqmt">
+                        <input type="text" class="form-control" name="park_extension" placeholder="Park Extension in Sqft/Sqmt" value="3000">
                     </div>
                 </div>
                 <div class="col-12 col-lg-4">
                     <div class="form-group">
                         <label>Read Extension in Sqft/Sqmt</label>
-                        <input type="text" class="form-control" placeholder="Read Extension in Sqft/Sqmt">
+                        <input type="text" class="form-control" name="road_extension" placeholder="Read Extension in Sqft/Sqmt" value="2000">
                     </div>
                 </div>
             </div>
@@ -137,7 +135,7 @@
                     <div class="form-group">
                         <label>Choose EB Line:</label>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="eb_line" id="eb_yes" value="yes">
+                            <input class="form-check-input" type="radio" name="eb_line" id="eb_yes" value="yes" checked>
                             <label class="form-check-label" for="eb_yes">Yes</label>
                         </div>
                         <div class="form-check form-check-inline">
@@ -150,7 +148,7 @@
                     <div class="form-group">
                         <label>Choose Tree Saplings:</label>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="tree_saplings" id="tree_yes" value="yes">
+                            <input class="form-check-input" type="radio" name="tree_saplings" id="tree_yes" value="yes" checked>
                             <label class="form-check-label" for="tree_yes">Yes</label>
                         </div>
                         <div class="form-check form-check-inline">
@@ -163,7 +161,7 @@
                     <div class="form-group">
                         <label>Choose Water Tank:</label>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="water_tank" id="water_yes" value="yes">
+                            <input class="form-check-input" type="radio" name="water_tank" id="water_yes" value="yes" checked>
                             <label class="form-check-label" for="water_yes">Yes</label>
                         </div>
                         <div class="form-check form-check-inline">
@@ -179,19 +177,19 @@
                 <div class="col-12 col-lg-4">
                     <div class="form-group">
                         <label>Land Purchased RS.no</label>
-                        <input type="text" class="form-control" placeholder="Land Purchased RS.no">
+                        <input type="text" class="form-control" name="land_purchased_rs" placeholder="Land Purchased RS.no" value="RS001">
                     </div>
                 </div>
                 <div class="col-12 col-lg-4">
                     <div class="form-group">
                         <label>Land UnPurchased RS.no</label>
-                        <input type="text" class="form-control" placeholder="Land UnPurchased RS.no">
+                        <input type="text" class="form-control" name="land_unpurchased_rs" placeholder="Land UnPurchased RS.no" value="RS002">
                     </div>
                 </div>
                 <div class="col-12 col-lg-4">
                     <div class="form-group">
                         <label>Incentive %</label>
-                        <input type="text" class="form-control" placeholder="Incentive %">
+                        <input type="text" class="form-control" name="incentive_percent" placeholder="Incentive %" value="5">
                     </div>
                 </div>
             </div>
@@ -205,23 +203,23 @@
                             <tbody>
                                 <tr>
                                     <td>Registration District</td>
-                                    <td><input type="text" class="form-control" name="registration_district"></td>
+                                    <td><input type="text" class="form-control" name="registration_district" value="Chennai"></td>
                                 </tr>
                                 <tr>
                                     <td>Registration Sub - District</td>
-                                    <td><input type="text" class="form-control" name="registration_sub_district"></td>
+                                    <td><input type="text" class="form-control" name="registration_sub_district" value="Tambaram"></td>
                                 </tr>
                                 <tr>
                                     <td>Town/Village</td>
-                                    <td><input type="text" class="form-control" name="town_village"></td>
+                                    <td><input type="text" class="form-control" name="town_village" value="Tambaram"></td>
                                 </tr>
                                 <tr>
                                     <td>Revenue Taluk</td>
-                                    <td><input type="text" class="form-control" name="revenue_taluk"></td>
+                                    <td><input type="text" class="form-control" name="revenue_taluk" value="Tambaram"></td>
                                 </tr>
                                 <tr>
                                     <td>Sub Registrar</td>
-                                    <td><input type="text" class="form-control" name="sub_registrar"></td>
+                                    <td><input type="text" class="form-control" name="sub_registrar" value="Sub Registrar Office"></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -300,14 +298,14 @@
                                 <i class="fa fa-plus"></i>
                             </button>
                         </td>
-                        <td><input type="text" class="form-control form-control-sm"></td>
-                        <td><input type="text" class="form-control form-control-sm"></td>
-                        <td><input type="text" class="form-control form-control-sm"></td>
-                        <td><input type="text" class="form-control form-control-sm"></td>
-                        <td><input type="text" class="form-control form-control-sm"></td>
-                        <td><input type="text" class="form-control form-control-sm"></td>
-                        <td><input type="text" class="form-control form-control-sm plot-value"></td>
-                        <td><input type="text" class="form-control form-control-sm" placeholder="UnSold"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="plot_no[]" value="A001"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="plot_extension[]" value="1200"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="north[]" value="30"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="east[]" value="40"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="west[]" value="30"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="south[]" value="40"></td>
+                        <td><input type="text" class="form-control form-control-sm plot-value" name="plot_value[]" value="6000000"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="status[]" placeholder="UnSold" value="unsold"></td>
                     </tr>
                 </tbody>
             </table>
@@ -390,7 +388,7 @@
         <button class="btn btn-light btn-block"><i class="fa fa-arrow-left mr-2"></i> Previous</button>
     </div>
     <div class="col-6">
-        <button class="btn btn-primary btn-block">Submit <i class="fa fa-check ml-2"></i></button>
+        <button type="button" class="btn btn-primary btn-block" onclick="submitGardenProfile()">Submit <i class="fa fa-check ml-2"></i></button>
     </div>
 </div>
 
@@ -432,14 +430,14 @@
                             <i class="fa fa-plus"></i>
                         </button>
                     </td>
-                    <td><input type="text" class="form-control form-control-sm"></td>
-                    <td><input type="text" class="form-control form-control-sm"></td>
-                    <td><input type="text" class="form-control form-control-sm"></td>
-                    <td><input type="text" class="form-control form-control-sm"></td>
-                    <td><input type="text" class="form-control form-control-sm"></td>
-                    <td><input type="text" class="form-control form-control-sm"></td>
-                    <td><input type="text" class="form-control form-control-sm plot-value"></td>
-                    <td><input type="text" class="form-control form-control-sm" placeholder="UnSold"></td>
+                    <td><input type="text" class="form-control form-control-sm" name="plot_no[]" value="A002"></td>
+                    <td><input type="text" class="form-control form-control-sm" name="plot_extension[]" value="1200"></td>
+                    <td><input type="text" class="form-control form-control-sm" name="north[]" value="30"></td>
+                    <td><input type="text" class="form-control form-control-sm" name="east[]" value="40"></td>
+                    <td><input type="text" class="form-control form-control-sm" name="west[]" value="30"></td>
+                    <td><input type="text" class="form-control form-control-sm" name="south[]" value="40"></td>
+                    <td><input type="text" class="form-control form-control-sm plot-value" name="plot_value[]" value="6000000"></td>
+                    <td><input type="text" class="form-control form-control-sm" name="status[]" placeholder="UnSold" value="unsold"></td>
                 </tr>`;
             table.append(newRow);
             updateAddButtonVisibility();
@@ -485,4 +483,60 @@
 
         updateAddButtonVisibility();
     });
+
+    // Submit garden profile form
+    function submitGardenProfile() {
+        // Get form data
+        const form = document.getElementById('gardenProfileForm');
+        const formData = new FormData(form);
+        
+        // Add plots data from dynamic table
+        const table = document.getElementById('dynamicTable');
+        const rows = table.querySelectorAll('tbody tr');
+        
+        rows.forEach((row, index) => {
+            const inputs = row.querySelectorAll('input');
+            if (inputs.length >= 8) {
+                formData.append('plot_no[]', inputs[0].value || '');
+                formData.append('plot_extension[]', inputs[1].value || '');
+                formData.append('north[]', inputs[2].value || '');
+                formData.append('east[]', inputs[3].value || '');
+                formData.append('west[]', inputs[4].value || '');
+                formData.append('south[]', inputs[5].value || '');
+                formData.append('plot_value[]', inputs[6].value || '');
+                formData.append('status[]', inputs[7].value || 'unsold');
+            }
+        });
+        
+        // Show loading state
+        const submitBtn = document.querySelector('button[onclick="submitGardenProfile()"]');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<i class="fa fa-spinner fa-spin mr-2"></i>Submitting...';
+        submitBtn.disabled = true;
+        
+        // Submit form
+        fetch('<?php echo base_url('submit_garden_profile'); ?>', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                alert('Garden profile saved successfully!');
+                // Optionally redirect to view page
+                window.location.href = '<?php echo base_url('unsold_plots'); ?>';
+            } else {
+                alert('Error: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error submitting form. Please try again.');
+        })
+        .finally(() => {
+            // Restore button state
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        });
+    }
 </script>

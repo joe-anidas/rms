@@ -1,4 +1,7 @@
 <?php
+// Start output buffering to prevent headers already sent errors
+ob_start();
+
 /**
  * CodeIgniter
  *
@@ -313,3 +316,6 @@ switch (ENVIRONMENT)
  * And away we go...
  */
 require_once BASEPATH.'core/CodeIgniter.php';
+
+// Flush output buffer
+ob_end_flush();
