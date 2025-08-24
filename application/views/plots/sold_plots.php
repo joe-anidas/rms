@@ -5,6 +5,9 @@
             <a href="<?php echo base_url('garden_profile'); ?>" class="btn btn-primary btn-sm">
                 <i class="fa fa-plus mr-1"></i>Add New Garden
             </a>
+            <a href="<?php echo base_url('plots/overview'); ?>" class="btn btn-secondary btn-sm">
+                <i class="fa fa-eye mr-1"></i>View All Plots
+            </a>
         </div>
     </div>
     <div class="card-body">
@@ -12,7 +15,7 @@
             <div class="text-center py-5">
                 <i class="fa fa-check-circle fa-3x text-success mb-3"></i>
                 <h5 class="text-muted">No sold plots found</h5>
-                <p class="text-muted">Sold plots will appear here once they are marked as sold</p>
+                <p class="text-muted">Sold plots will appear here once they are purchased by customers</p>
                 <a href="<?php echo base_url('garden_profile'); ?>" class="btn btn-primary">
                     <i class="fa fa-plus mr-2"></i>Add Garden
                 </a>
@@ -29,6 +32,7 @@
                             <th>Plot Value</th>
                             <th>Customer Name</th>
                             <th>Sale Date</th>
+                            <th>Sale Amount</th>
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
@@ -46,7 +50,7 @@
                                     <?php endif; ?>
                                 </td>
                                 <td>
-                                    <span class="badge badge-info"><?php echo htmlspecialchars($plot->plot_no); ?></span>
+                                    <span class="badge badge-success"><?php echo htmlspecialchars($plot->plot_no); ?></span>
                                 </td>
                                 <td>
                                     <strong><?php echo htmlspecialchars($plot->plot_extension); ?></strong>
@@ -68,6 +72,9 @@
                                     </small>
                                 </td>
                                 <td>
+                                    <strong class="text-success">₹<?php echo number_format($plot->sale_amount); ?></strong>
+                                </td>
+                                <td>
                                     <span class="badge badge-success">Sold</span>
                                 </td>
                                 <td>
@@ -78,8 +85,8 @@
                                         <button type="button" class="btn btn-sm btn-warning" onclick="editSoldPlot(<?php echo $plot->id; ?>)">
                                             <i class="fa fa-edit"></i>
                                         </button>
-                                        <button type="button" class="btn btn-sm btn-secondary" onclick="downloadDocuments(<?php echo $plot->id; ?>)">
-                                            <i class="fa fa-download"></i>
+                                        <button type="button" class="btn btn-sm btn-secondary" onclick="printSaleReceipt(<?php echo $plot->id; ?>)">
+                                            <i class="fa fa-print"></i>
                                         </button>
                                     </div>
                                 </td>
@@ -158,20 +165,19 @@ function viewSoldPlot(plotId) {
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-6">
+                            <h6 class="text-primary">Sale Details</h6>
+                            <table class="table table-borderless">
+                                <tr><td><strong>Sale Amount:</strong></td><td>₹${plot.sale_amount}</td></tr>
+                                <tr><td><strong>Payment Method:</strong></td><td>${plot.payment_method || 'N/A'}</td></tr>
+                                <tr><td><strong>Sale Reference:</strong></td><td>${plot.sale_reference || 'N/A'}</td></tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
                             <h6 class="text-primary">Location Details</h6>
                             <table class="table table-borderless">
                                 <tr><td><strong>District:</strong></td><td>${plot.district || 'N/A'}</td></tr>
                                 <tr><td><strong>Taluk:</strong></td><td>${plot.taluk_name || 'N/A'}</td></tr>
                                 <tr><td><strong>Village/Town:</strong></td><td>${plot.village_town_name || 'N/A'}</td></tr>
-                            </table>
-                        </div>
-                        <div class="col-md-6">
-                            <h6 class="text-primary">Boundary Details</h6>
-                            <table class="table table-borderless">
-                                <tr><td><strong>North:</strong></td><td>${plot.north || 'N/A'}</td></tr>
-                                <tr><td><strong>East:</strong></td><td>${plot.east || 'N/A'}</td></tr>
-                                <tr><td><strong>West:</strong></td><td>${plot.west || 'N/A'}</td></tr>
-                                <tr><td><strong>South:</strong></td><td>${plot.south || 'N/A'}</td></tr>
                             </table>
                         </div>
                     </div>
@@ -192,15 +198,15 @@ function editSoldPlot(plotId) {
     alert('Edit functionality will be implemented in the next version');
 }
 
-// Download documents (placeholder function)
-function downloadDocuments(plotId) {
-    alert('Document download functionality will be implemented in the next version');
+// Print sale receipt (placeholder function)
+function printSaleReceipt(plotId) {
+    alert('Print functionality will be implemented in the next version');
 }
 
 // Export sold plots data
 function exportSoldPlots() {
     // Create CSV content
-    const headers = ['Plot ID', 'Garden Name', 'Plot No', 'Plot Extension', 'Plot Value', 'Customer Name', 'Customer Phone', 'Sale Date', 'District', 'Taluk', 'Village/Town', 'North', 'East', 'West', 'South'];
+    const headers = ['Plot ID', 'Garden Name', 'Plot No', 'Plot Extension', 'Plot Value', 'Customer Name', 'Customer Phone', 'Sale Date', 'Sale Amount', 'Payment Method', 'District', 'Taluk', 'Village/Town'];
     const csvContent = [
         headers.join(','),
         ...<?php echo json_encode(array_map(function($plot) {
@@ -213,13 +219,11 @@ function exportSoldPlots() {
                 $plot->customer_name,
                 $plot->customer_phone ?: '',
                 $plot->sale_date,
+                $plot->sale_amount,
+                $plot->payment_method ?: '',
                 $plot->district ?: '',
                 $plot->taluk_name ?: '',
-                $plot->village_town_name ?: '',
-                $plot->north ?: '',
-                $plot->east ?: '',
-                $plot->west ?: '',
-                $plot->south ?: ''
+                $plot->village_town_name ?: ''
             ];
         }, $sold_plots ?? [])); ?>.map(row => row.map(field => `"${field}"`).join(','))
     ].join('\n');

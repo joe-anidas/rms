@@ -1,9 +1,13 @@
 <div class="card mt-3">
     <div class="card-header">
         <h5 class="mb-0"><i class="fa fa-times-circle mr-2"></i>Unsold Plots List</h5>
+        <!-- Debug: This page is loading correctly -->
         <div class="card-action">
             <a href="<?php echo base_url('garden_profile'); ?>" class="btn btn-primary btn-sm">
                 <i class="fa fa-plus mr-1"></i>Add New Garden
+            </a>
+            <a href="<?php echo base_url('plots/overview'); ?>" class="btn btn-secondary btn-sm">
+                <i class="fa fa-eye mr-1"></i>View All Plots
             </a>
         </div>
     </div>
@@ -146,19 +150,19 @@
                     <input type="hidden" id="plotIdToSell" name="plot_id">
                     <div class="form-group">
                         <label for="customerName">Customer Name</label>
-                        <input type="text" class="form-control" id="customerName" name="customer_name" required>
+                        <input type="text" class="form-control" id="customerName" name="customer_name" value="John Doe" required>
                     </div>
                     <div class="form-group">
                         <label for="customerPhone">Customer Phone</label>
-                        <input type="text" class="form-control" id="customerPhone" name="customer_phone" required>
+                        <input type="text" class="form-control" id="customerPhone" name="customer_phone" value="9876543210" required>
                     </div>
                     <div class="form-group">
                         <label for="saleDate">Sale Date</label>
-                        <input type="date" class="form-control" id="saleDate" name="sale_date" required>
+                        <input type="date" class="form-control" id="saleDate" name="sale_date" value="<?php echo date('Y-m-d'); ?>" required>
                     </div>
                     <div class="form-group">
                         <label for="saleAmount">Sale Amount</label>
-                        <input type="number" class="form-control" id="saleAmount" name="sale_amount" required>
+                        <input type="number" class="form-control" id="saleAmount" name="sale_amount" value="5000000" required>
                     </div>
                 </form>
             </div>

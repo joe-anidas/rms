@@ -88,9 +88,12 @@
         <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="zmdi zmdi-home"></i> <span>Nagar/Garden</span></a>
         <div class="dropdown-menu" aria-labelledby="dropdown01">
           <a class="dropdown-item" href="<?php echo base_url('garden_profile'); ?>">Nagar/Garden Profile</a>
-          <a class="dropdown-item" href="<?php echo base_url('registered_plot'); ?>">Sold/Registered plot</a>
-          <a class="dropdown-item" href="<?php echo base_url('unsold_plots'); ?>">Unsold/Unregistered Plot</a>
+          <a class="dropdown-item" href="<?php echo base_url('plots/overview'); ?>">Plots Overview</a>
+          <a class="dropdown-item" href="<?php echo base_url('garden/details'); ?>">Garden Details</a>
+          <a class="dropdown-item" href="<?php echo base_url('registered_plot'); ?>">Register New Plot</a>
+          <a class="dropdown-item" href="<?php echo base_url('unregistered_plots'); ?>">Unsold Plots</a>
           <a class="dropdown-item" href="<?php echo base_url('booked_plots'); ?>">Booked Plots</a>
+          <a class="dropdown-item" href="<?php echo base_url('sold_plots'); ?>">Sold Plots</a>
         </div>
       </li>
       <!-- <li class="nav-item dropdown">
@@ -116,10 +119,6 @@
         <div class="dropdown-menu" aria-labelledby="dropdown04">
           <a class="dropdown-item" href="<?php echo base_url('customer_details'); ?>">Add New Customer</a>
           <a class="dropdown-item" href="<?php echo base_url('customer_list'); ?>">View All Customers</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="<?php echo base_url('simple_test'); ?>">Simple Test</a>
-          <a class="dropdown-item" href="<?php echo base_url('db_test'); ?>">Database Test</a>
-          <a class="dropdown-item" href="<?php echo base_url('debug_customer'); ?>">Debug System</a>
         </div>
       </li>
 

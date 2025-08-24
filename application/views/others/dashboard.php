@@ -99,55 +99,53 @@
 
      <div class="col-12 col-lg-4 col-xl-4">
         <div class="card">
-           <div class="card-header">Weekly sales
-             <div class="card-action">
-             <div class="dropdown">
-             <a href="javascript:void();" class="dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown">
-              <i class="icon-options"></i>
-             </a>
-              <div class="dropdown-menu dropdown-menu-right">
-              <a class="dropdown-item" href="javascript:void();">Action</a>
-              <a class="dropdown-item" href="javascript:void();">Another action</a>
-              <a class="dropdown-item" href="javascript:void();">Something else here</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="javascript:void();">Separated link</a>
-               </div>
-              </div>
-             </div>
-           </div>
-           <div class="card-body">
-		     <div class="chart-container-2">
-               <canvas id="chart2"></canvas>
-			  </div>
-           </div>
-           <div class="table-responsive">
-             <table class="table align-items-center">
-               <tbody>
-                 <tr>
-                   <td><i class="fa fa-circle text-white mr-2"></i> Direct</td>
-                   <td>$5856</td>
-                   <td>+55%</td>
-                 </tr>
-                 <tr>
-                   <td><i class="fa fa-circle text-light-1 mr-2"></i>Affiliate</td>
-                   <td>$2602</td>
-                   <td>+25%</td>
-                 </tr>
-                 <tr>
-                   <td><i class="fa fa-circle text-light-2 mr-2"></i>E-mail</td>
-                   <td>$1802</td>
-                   <td>+15%</td>
-                 </tr>
-                 <tr>
-                   <td><i class="fa fa-circle text-light-3 mr-2"></i>Other</td>
-                   <td>$1105</td>
-                   <td>+5%</td>
-                 </tr>
-               </tbody>
-             </table>
-           </div>
-         </div>
-     </div>
+		 <div class="card-header">Plots Management
+		   <div class="card-action">
+			 <a href="<?php echo base_url('plots/overview'); ?>" class="btn btn-primary btn-sm">
+			   <i class="fa fa-eye mr-1"></i>View All
+			 </a>
+		   </div>
+		 </div>
+		 <div class="card-body">
+		   <div class="row">
+		     <div class="col-6">
+		       <div class="text-center">
+		         <h5 class="mb-0 text-primary"><?php echo isset($plot_stats['total_plots']) ? $plot_stats['total_plots'] : 0; ?></h5>
+		         <small class="text-muted">Total Plots</small>
+		       </div>
+		     </div>
+		     <div class="col-6">
+		       <div class="text-center">
+		         <h5 class="mb-0 text-success"><?php echo isset($plot_stats['sold_plots']) ? $plot_stats['sold_plots'] : 0; ?></h5>
+		         <small class="text-muted">Sold Plots</small>
+		       </div>
+		     </div>
+		   </div>
+		   <div class="row mt-3">
+		     <div class="col-6">
+		       <div class="text-center">
+		         <h5 class="mb-0 text-info"><?php echo isset($plot_stats['booked_plots']) ? $plot_stats['booked_plots'] : 0; ?></h5>
+		         <small class="text-muted">Booked Plots</small>
+		       </div>
+		     </div>
+		     <div class="col-6">
+		       <div class="text-center">
+		         <h5 class="mb-0 text-warning"><?php echo isset($plot_stats['unsold_plots']) ? $plot_stats['unsold_plots'] : 0; ?></h5>
+		         <small class="text-muted">Unsold Plots</small>
+		       </div>
+		     </div>
+		   </div>
+		   <hr>
+		   <div class="text-center">
+		     <a href="<?php echo base_url('garden_profile'); ?>" class="btn btn-success btn-sm mr-2">
+		       <i class="fa fa-plus mr-1"></i>Add Plot
+		     </a>
+		     <a href="<?php echo base_url('garden/details'); ?>" class="btn btn-info btn-sm">
+		       <i class="fa fa-tree mr-1"></i>Gardens
+		     </a>
+		   </div>
+		 </div>
+		</div>
 	</div><!--End Row-->
 	
 	<div class="row">

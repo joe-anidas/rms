@@ -18,6 +18,15 @@ class Welcome extends CI_Controller {
     public function index()
     {
         $data['theme'] = $this->Theme_model->get_theme_path();
+        
+        // Get plot statistics for dashboard
+        try {
+            $data['plot_stats'] = $this->Garden_model->get_plot_statistics();
+        } catch (Exception $e) {
+            error_log('Error getting plot statistics: ' . $e->getMessage());
+            $data['plot_stats'] = array();
+        }
+        
         $this->load->view('others/header', $data);
         $this->load->view('others/dashboard');
         $this->load->view('others/footer');
@@ -27,6 +36,12 @@ class Welcome extends CI_Controller {
         $data['theme'] = $this->Theme_model->get_theme_path();
         $this->load->view('others/header', $data);
         $this->load->view('plots/registered_plot');
+        $this->load->view('others/footer');
+    }
+    public function unregistered_plot() {
+        $data['theme'] = $this->Theme_model->get_theme_path();
+        $this->load->view('others/header', $data);
+        $this->load->view('plots/unregistered_plots');
         $this->load->view('others/footer');
     }
 
@@ -104,23 +119,23 @@ class Welcome extends CI_Controller {
             error_log('Insert result: ' . ($insert_result ? 'success' : 'failed'));
             
             if ($insert_result) {
-                $response = array(
-                    'status' => 'success',
-                    'message' => 'Customer details saved successfully!'
-                );
+                $customer_id = $this->db->insert_id();
+                $data['message'] = 'Customer details saved successfully!';
+                $data['record_id'] = $customer_id;
+                $data['record_type'] = 'customer';
+                $data['theme'] = $this->Theme_model->get_theme_path();
+                
+                $this->load->view('others/header', $data);
+                $this->load->view('others/success', $data);
+                $this->load->view('others/footer');
             } else {
-                $response = array(
-                    'status' => 'error',
-                    'message' => 'Failed to save customer details. Please try again.'
-                );
+                $data['message'] = 'Failed to save customer details. Please try again.';
+                $data['theme'] = $this->Theme_model->get_theme_path();
+                
+                $this->load->view('others/header', $data);
+                $this->load->view('others/success', $data);
+                $this->load->view('others/footer');
             }
-            
-            // Debug: Log the response
-            error_log('Response: ' . print_r($response, true));
-            
-            // Return JSON response
-            header('Content-Type: application/json');
-            echo json_encode($response);
             
         } catch (Exception $e) {
             error_log('Error in submit_customer: ' . $e->getMessage());
@@ -338,23 +353,23 @@ class Welcome extends CI_Controller {
             error_log('Staff insert result: ' . ($insert_result ? 'success' : 'failed'));
             
             if ($insert_result) {
-                $response = array(
-                    'status' => 'success',
-                    'message' => 'Staff details saved successfully!'
-                );
+                $staff_id = $this->db->insert_id();
+                $data['message'] = 'Staff details saved successfully!';
+                $data['record_id'] = $staff_id;
+                $data['record_type'] = 'staff';
+                $data['theme'] = $this->Theme_model->get_theme_path();
+                
+                $this->load->view('others/header', $data);
+                $this->load->view('others/success', $data);
+                $this->load->view('others/footer');
             } else {
-                $response = array(
-                    'status' => 'error',
-                    'message' => 'Failed to save staff details. Please try again.'
-                );
+                $data['message'] = 'Failed to save staff details. Please try again.';
+                $data['theme'] = $this->Theme_model->get_theme_path();
+                
+                $this->load->view('others/header', $data);
+                $this->load->view('others/success', $data);
+                $this->load->view('others/footer');
             }
-            
-            // Debug: Log the response
-            error_log('Staff response: ' . print_r($response, true));
-            
-            // Return JSON response
-            header('Content-Type: application/json');
-            echo json_encode($response);
             
         } catch (Exception $e) {
             error_log('Error in submit_staff: ' . $e->getMessage());
@@ -530,11 +545,13 @@ class Welcome extends CI_Controller {
 
     public function unsold_plots() {
         try {
+            error_log('unsold_plots method called');
             $data['theme'] = $this->Theme_model->get_theme_path();
             $data['unsold_plots'] = $this->Garden_model->get_unsold_plots();
+            error_log('Unsold plots count: ' . count($data['unsold_plots']));
             
             $this->load->view('others/header', $data);
-            $this->load->view('plots/unsold_plots', $data);
+            $this->load->view('plots/unregistered_plots', $data);
             $this->load->view('others/footer');
             
         } catch (Exception $e) {
@@ -545,8 +562,10 @@ class Welcome extends CI_Controller {
 
     public function booked_plots() {
         try {
+            error_log('booked_plots method called');
             $data['theme'] = $this->Theme_model->get_theme_path();
             $data['booked_plots'] = $this->Garden_model->get_booked_plots();
+            error_log('Booked plots count: ' . count($data['booked_plots']));
             
             $this->load->view('others/header', $data);
             $this->load->view('plots/booked_plots', $data);
@@ -726,6 +745,15 @@ class Welcome extends CI_Controller {
         $this->load->view('others/footer');
     }
 
+    // Success method
+    public function success() {
+        $data['theme'] = $this->Theme_model->get_theme_path();
+        $data['message'] = 'Operation completed successfully!';
+        $this->load->view('others/header', $data);
+        $this->load->view('others/success', $data);
+        $this->load->view('others/footer');
+    }
+
     // Add Staff method
     public function add_staff() {
         $data['theme'] = $this->Theme_model->get_theme_path();
@@ -740,5 +768,293 @@ class Welcome extends CI_Controller {
         $this->load->view('others/header', $data);
         $this->load->view('customer/add_customer');
         $this->load->view('others/footer');
+    }
+
+    // View Customer Details method
+    public function view_customer($id) {
+        try {
+            $data['theme'] = $this->Theme_model->get_theme_path();
+            $data['customer'] = $this->Customer_model->get_customer_by_id($id);
+            
+            if (!$data['customer']) {
+                show_404();
+                return;
+            }
+            
+            $this->load->view('others/header', $data);
+            $this->load->view('customer/customer_details', $data);
+            $this->load->view('others/footer');
+            
+        } catch (Exception $e) {
+            error_log('Error in view_customer: ' . $e->getMessage());
+            echo 'Error loading customer details: ' . $e->getMessage();
+        }
+    }
+
+    // View Staff Details method
+    public function view_staff($id) {
+        try {
+            $data['theme'] = $this->Theme_model->get_theme_path();
+            $data['staff'] = $this->Staff_model->get_staff_by_id($id);
+            
+            if (!$data['staff']) {
+                show_404();
+                return;
+            }
+            
+            $this->load->view('others/header', $data);
+            $this->load->view('staff/staff_details', $data);
+            $this->load->view('others/footer');
+            
+        } catch (Exception $e) {
+            error_log('Error in view_staff: ' . $e->getMessage());
+            echo 'Error loading staff details: ' . $e->getMessage();
+        }
+    }
+
+    // View Plot Details method
+    public function view_plot($id) {
+        try {
+            $data['theme'] = $this->Theme_model->get_theme_path();
+            $data['plot'] = $this->Garden_model->get_plot_by_id($id);
+            
+            if (!$data['plot']) {
+                show_404();
+                return;
+            }
+            
+            $this->load->view('others/header', $data);
+            $this->load->view('plots/garden_profile', $data);
+            $this->load->view('others/footer');
+            
+        } catch (Exception $e) {
+            error_log('Error in view_plot: ' . $e->getMessage());
+            echo 'Error loading plot details: ' . $e->getMessage();
+        }
+    }
+
+    // Unregistered Plots method
+    public function unregistered_plots() {
+        try {
+            error_log('unregistered_plots method called');
+            $data['theme'] = $this->Theme_model->get_theme_path();
+            $data['unsold_plots'] = $this->Garden_model->get_unregistered_plots();
+            error_log('Unregistered plots count: ' . count($data['unsold_plots']));
+            
+            $this->load->view('others/header', $data);
+            $this->load->view('plots/unregistered_plots', $data);
+            $this->load->view('others/footer');
+            
+        } catch (Exception $e) {
+            error_log('Error in unregistered_plots: ' . $e->getMessage());
+            echo 'Error loading unregistered plots: ' . $e->getMessage();
+        }
+    }
+
+    // Get Unregistered Plot method
+    public function get_unregistered_plot($id) {
+        $plot = $this->Garden_model->get_plot_by_id($id);
+        if ($plot) {
+            $response = array(
+                'status' => 'success',
+                'plot' => $plot
+            );
+        } else {
+            $response = array(
+                'status' => 'error',
+                'message' => 'Plot not found'
+            );
+        }
+        
+        header('Content-Type: application/json');
+        echo json_encode($response);
+    }
+
+    // New methods for plot management
+    public function submit_registered_plot() {
+        try {
+            $response = array();
+            
+            // Get form data
+            $plot_data = array(
+                'garden_id' => $this->input->post('garden_id') ?: 1, // Default to first garden
+                'plot_no' => $this->input->post('plot_no'),
+                'plot_extension' => $this->input->post('plot_extension'),
+                'north' => $this->input->post('north'),
+                'east' => $this->input->post('east'),
+                'west' => $this->input->post('west'),
+                'south' => $this->input->post('south'),
+                'plot_value' => $this->input->post('plot_value'),
+                'plot_rate_per_sqft' => $this->input->post('plot_rate'),
+                'registration_document_no' => $this->input->post('doc_number'),
+                'registration_date' => $this->input->post('reg_date'),
+                'patta_chitta_no' => $this->input->post('patta_chitta'),
+                'ts_no' => $this->input->post('ts_no'),
+                'ward_block' => $this->input->post('ward_block'),
+                'referred_by' => $this->input->post('employee'),
+                'notes' => $this->input->post('notes')
+            );
+            
+            // Submit plot
+            $plot_id = $this->Garden_model->submit_registered_plot($plot_data);
+            
+            if ($plot_id) {
+                $response = array(
+                    'status' => 'success',
+                    'message' => 'Plot registered successfully!',
+                    'plot_id' => $plot_id
+                );
+            } else {
+                $response = array(
+                    'status' => 'error',
+                    'message' => 'Failed to register plot'
+                );
+            }
+            
+        } catch (Exception $e) {
+            error_log('Error in submit_registered_plot: ' . $e->getMessage());
+            $response = array(
+                'status' => 'error',
+                'message' => 'Error: ' . $e->getMessage()
+            );
+        }
+        
+        header('Content-Type: application/json');
+        echo json_encode($response);
+    }
+
+    public function submit_plot_booking() {
+        try {
+            $response = array();
+            
+            $plot_id = $this->input->post('plot_id');
+            $booking_data = array(
+                'customer_name' => $this->input->post('customer_name'),
+                'customer_phone' => $this->input->post('customer_phone'),
+                'customer_phone2' => $this->input->post('customer_phone2'),
+                'father_name' => $this->input->post('father_name'),
+                'customer_address' => $this->input->post('customer_address'),
+                'customer_pincode' => $this->input->post('customer_pincode'),
+                'customer_district' => $this->input->post('customer_district'),
+                'customer_taluk' => $this->input->post('customer_taluk'),
+                'customer_village_town' => $this->input->post('customer_village_town'),
+                'id_proof_type' => $this->input->post('id_proof_type'),
+                'id_proof_number' => $this->input->post('id_proof_number'),
+                'booking_date' => $this->input->post('booking_date'),
+                'booking_amount' => $this->input->post('booking_amount'),
+                'payment_method' => $this->input->post('payment_method'),
+                'notes' => $this->input->post('notes')
+            );
+            
+            $result = $this->Garden_model->submit_plot_booking($plot_id, $booking_data);
+            
+            if ($result) {
+                $response = array(
+                    'status' => 'success',
+                    'message' => 'Plot booked successfully!'
+                );
+            } else {
+                $response = array(
+                    'status' => 'error',
+                    'message' => 'Failed to book plot'
+                );
+            }
+            
+        } catch (Exception $e) {
+            error_log('Error in submit_plot_booking: ' . $e->getMessage());
+            $response = array(
+                'status' => 'error',
+                'message' => 'Error: ' . $e->getMessage()
+            );
+        }
+        
+        header('Content-Type: application/json');
+        echo json_encode($response);
+    }
+
+    public function submit_plot_sale() {
+        try {
+            $response = array();
+            
+            $plot_id = $this->input->post('plot_id');
+            $sale_data = array(
+                'customer_name' => $this->input->post('customer_name'),
+                'customer_phone' => $this->input->post('customer_phone'),
+                'customer_phone2' => $this->input->post('customer_phone2'),
+                'father_name' => $this->input->post('father_name'),
+                'customer_address' => $this->input->post('customer_address'),
+                'customer_pincode' => $this->input->post('customer_pincode'),
+                'customer_district' => $this->input->post('customer_district'),
+                'customer_taluk' => $this->input->post('customer_taluk'),
+                'customer_village_town' => $this->input->post('customer_village_town'),
+                'id_proof_type' => $this->input->post('id_proof_type'),
+                'id_proof_number' => $this->input->post('id_proof_number'),
+                'sale_date' => $this->input->post('sale_date'),
+                'sale_amount' => $this->input->post('sale_amount'),
+                'payment_method' => $this->input->post('payment_method'),
+                'notes' => $this->input->post('notes')
+            );
+            
+            $result = $this->Garden_model->submit_plot_sale($plot_id, $sale_data);
+            
+            if ($result) {
+                $response = array(
+                    'status' => 'success',
+                    'message' => 'Plot sold successfully!'
+                );
+            } else {
+                $response = array(
+                    'status' => 'error',
+                    'message' => 'Failed to mark plot as sold'
+                );
+            }
+            
+        } catch (Exception $e) {
+            error_log('Error in submit_plot_sale: ' . $e->getMessage());
+            $response = array(
+                'status' => 'error',
+                'message' => 'Error: ' . $e->getMessage()
+            );
+        }
+        
+        header('Content-Type: application/json');
+        echo json_encode($response);
+    }
+
+    public function plots_overview() {
+        try {
+            $data['theme'] = $this->Theme_model->get_theme_path();
+            $data['plots'] = $this->Garden_model->get_plots_overview();
+            $data['statistics'] = $this->Garden_model->get_plot_statistics();
+            
+            $this->load->view('others/header', $data);
+            $this->load->view('plots/plots_overview', $data);
+            $this->load->view('others/footer');
+            
+        } catch (Exception $e) {
+            error_log('Error in plots_overview: ' . $e->getMessage());
+            echo 'Error loading plots overview: ' . $e->getMessage();
+        }
+    }
+
+    public function garden_details($garden_id = null) {
+        try {
+            $data['theme'] = $this->Theme_model->get_theme_path();
+            
+            if ($garden_id) {
+                $data['garden'] = $this->Garden_model->get_garden_by_id($garden_id);
+                $data['plots'] = $this->Garden_model->get_plots_by_status('unsold');
+            } else {
+                $data['gardens'] = $this->Garden_model->get_all_gardens();
+            }
+            
+            $this->load->view('others/header', $data);
+            $this->load->view('plots/garden_details', $data);
+            $this->load->view('others/footer');
+            
+        } catch (Exception $e) {
+            error_log('Error in garden_details: ' . $e->getMessage());
+            echo 'Error loading garden details: ' . $e->getMessage();
+        }
     }
 }

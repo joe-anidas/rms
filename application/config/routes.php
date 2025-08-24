@@ -56,6 +56,7 @@ $route['translate_uri_dashes'] = FALSE;
 
 // Dashboard Routes
 $route['dashboard'] = 'welcome/dashboard';
+$route['success'] = 'welcome/success';
 
 // Plots Routes
 $route['plots/registered'] = 'welcome/registered_plot';
@@ -63,30 +64,66 @@ $route['plots/garden'] = 'welcome/garden_profile';
 $route['plots/sold'] = 'welcome/sold_plots';
 $route['plots/unsold'] = 'welcome/unsold_plots';
 $route['plots/booked'] = 'welcome/booked_plots';
+$route['plots/unregistered'] = 'welcome/unregistered_plots';
+$route['plots/unregistered-plots'] = 'welcome/unregistered_plots';
+
+// Plot API Routes
 $route['plots/sold/(:num)'] = 'welcome/get_sold_plot/$1';
 $route['plots/unsold/(:num)'] = 'welcome/get_unsold_plot/$1';
 $route['plots/booked/(:num)'] = 'welcome/get_booked_plot/$1';
+$route['plots/unregistered/(:num)'] = 'welcome/get_unregistered_plot/$1';
 $route['plots/mark-sold'] = 'welcome/mark_plot_as_sold';
 $route['plots/convert-booking'] = 'welcome/convert_booking_to_sale';
 $route['plots/cancel-booking'] = 'welcome/cancel_booking';
+$route['plots/view/(:num)'] = 'welcome/view_plot/$1';
 
 // Staff Routes
-$route['staff/add'] = 'welcome/add_staff';
 $route['staff/list'] = 'welcome/staff_list';
 $route['staff/details'] = 'welcome/staff_details';
 $route['staff/(:num)'] = 'welcome/get_staff/$1';
 $route['staff/submit'] = 'welcome/submit_staff';
+$route['staff/view/(:num)'] = 'welcome/view_staff/$1';
 
 // Customer Routes
-$route['customer/add'] = 'welcome/add_customer';
 $route['customer/list'] = 'welcome/customer_list';
 $route['customer/details'] = 'welcome/customer_details';
 $route['customer/(:num)'] = 'welcome/get_customer/$1';
 $route['customer/submit'] = 'welcome/submit_customer';
+$route['customer/view/(:num)'] = 'welcome/view_customer/$1';
 
 // Legacy Routes (for backward compatibility)
 $route['registered_plot'] = 'welcome/registered_plot';
 $route['garden_profile'] = 'welcome/garden_profile';
+$route['sold_plots'] = 'welcome/sold_plots';
+$route['unsold_plots'] = 'welcome/unsold_plots';
+$route['booked_plots'] = 'welcome/booked_plots';
+$route['unregistered_plots'] = 'welcome/unregistered_plots';
+
+// Short legacy routes for navigation
+$route['registered'] = 'welcome/registered_plot';
+$route['unregistered'] = 'welcome/unregistered_plots';
+$route['booked'] = 'welcome/booked_plots';
+$route['sold'] = 'welcome/sold_plots';
+$route['unsold'] = 'welcome/unsold_plots';
+
+// Plot API Legacy Routes
+$route['get_sold_plot/(:num)'] = 'welcome/get_sold_plot/$1';
+$route['get_unsold_plot/(:num)'] = 'welcome/get_unsold_plot/$1';
+$route['get_booked_plot/(:num)'] = 'welcome/get_booked_plot/$1';
+$route['get_unregistered_plot/(:num)'] = 'welcome/get_unregistered_plot/$1';
+$route['mark_plot_as_sold'] = 'welcome/mark_plot_as_sold';
+$route['convert_booking_to_sale'] = 'welcome/convert_booking_to_sale';
+$route['cancel_booking'] = 'welcome/cancel_booking';
+
+// New Plot Management Routes
+$route['plots/submit-registered'] = 'welcome/submit_registered_plot';
+$route['plots/submit-booking'] = 'welcome/submit_plot_booking';
+$route['plots/submit-sale'] = 'welcome/submit_plot_sale';
+$route['plots/overview'] = 'welcome/plots_overview';
+$route['garden/details/(:num)'] = 'welcome/garden_details/$1';
+$route['garden/details'] = 'welcome/garden_details';
+
+// Customer and Staff Legacy Routes
 $route['customer_details'] = 'welcome/customer_details';
 $route['submit_customer'] = 'welcome/submit_customer';
 $route['customer_list'] = 'welcome/customer_list';

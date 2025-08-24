@@ -5,6 +5,9 @@
             <a href="<?php echo base_url('garden_profile'); ?>" class="btn btn-primary btn-sm">
                 <i class="fa fa-plus mr-1"></i>Add New Garden
             </a>
+            <a href="<?php echo base_url('plots/overview'); ?>" class="btn btn-secondary btn-sm">
+                <i class="fa fa-eye mr-1"></i>View All Plots
+            </a>
         </div>
     </div>
     <div class="card-body">
@@ -150,18 +153,18 @@
                     <input type="hidden" id="plotIdToConvert" name="plot_id">
                     <div class="form-group">
                         <label for="finalSaleAmount">Final Sale Amount</label>
-                        <input type="number" class="form-control" id="finalSaleAmount" name="final_sale_amount" required>
+                        <input type="number" class="form-control" id="finalSaleAmount" name="final_sale_amount" value="6000000" required>
                     </div>
                     <div class="form-group">
                         <label for="saleDate">Sale Date</label>
-                        <input type="date" class="form-control" id="saleDate" name="sale_date" required>
+                        <input type="date" class="form-control" id="saleDate" name="sale_date" value="<?php echo date('Y-m-d'); ?>" required>
                     </div>
                     <div class="form-group">
                         <label for="paymentMethod">Payment Method</label>
                         <select class="form-control" id="paymentMethod" name="payment_method" required>
                             <option value="">Select Payment Method</option>
                             <option value="cash">Cash</option>
-                            <option value="cheque">Cheque</option>
+                            <option value="cheque" selected>Cheque</option>
                             <option value="upi">UPI</option>
                             <option value="neft">NEFT/RTGS</option>
                             <option value="card">Card</option>
@@ -169,7 +172,7 @@
                     </div>
                     <div class="form-group">
                         <label for="additionalNotes">Additional Notes</label>
-                        <textarea class="form-control" id="additionalNotes" name="additional_notes" rows="3"></textarea>
+                        <textarea class="form-control" id="additionalNotes" name="additional_notes" rows="3" placeholder="Enter any additional notes here...">Booking successfully converted to sale. All documents submitted.</textarea>
                     </div>
                 </form>
             </div>
@@ -198,7 +201,7 @@
                         <label for="cancellationReason">Cancellation Reason</label>
                         <select class="form-control" id="cancellationReason" name="cancellation_reason" required>
                             <option value="">Select Reason</option>
-                            <option value="customer_request">Customer Request</option>
+                            <option value="customer_request" selected>Customer Request</option>
                             <option value="payment_issue">Payment Issue</option>
                             <option value="document_issue">Document Issue</option>
                             <option value="other">Other</option>
@@ -210,7 +213,7 @@
                     </div>
                     <div class="form-group">
                         <label for="cancellationNotes">Additional Notes</label>
-                        <textarea class="form-control" id="cancellationNotes" name="cancellation_notes" rows="3"></textarea>
+                        <textarea class="form-control" id="cancellationNotes" name="cancellation_notes" rows="3" placeholder="Enter cancellation details...">Booking cancelled as per customer request.</textarea>
                     </div>
                 </form>
             </div>
