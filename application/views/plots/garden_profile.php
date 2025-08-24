@@ -17,27 +17,25 @@
     </div>
     <div class="card-body">
         <h5 class="card-title">Add Nager/Garden Profile</h5>
-        <form>
+        <form id="gardenProfileForm">
             <div class="row row-group m-0">
                 <!-- First Row of Inputs -->
                 <div class="col-12 col-lg-4">
                     <div class="form-group">
                         <label>Nagar/Garden Name</label>
-                        <input type="text" class="form-control" placeholder="Enter Name">
+                        <input type="text" class="form-control" name="garden_name" placeholder="Enter Name" required>
                     </div>
                 </div>
                 <div class="col-12 col-lg-4">
                     <div class="form-group">
                         <label>District</label>
-                        <select class="form-control">
-                            <option>Select District</option>
-                        </select>
+                        <input type="text" class="form-control" name="district" placeholder="Enter District">
                     </div>
                 </div>
                 <div class="col-12 col-lg-4">
                     <div class="form-group">
                         <label>Taluk Name</label>
-                        <input type="text" class="form-control" placeholder="Enter Taluk Name">
+                        <input type="text" class="form-control" name="taluk_name" placeholder="Enter Taluk Name">
                     </div>
                 </div>
             </div>
@@ -48,19 +46,19 @@
                 <div class="col-12 col-lg-4">
                     <div class="form-group">
                         <label>Village/Town Name</label>
-                        <input type="text" class="form-control" placeholder="Enter Village/Town Name">
+                        <input type="text" class="form-control" name="village_town_name" placeholder="Enter Village/Town Name">
                     </div>
                 </div>
                 <div class="col-12 col-lg-4">
                     <div class="form-group">
                         <label>Patta / Chitta No</label>
-                        <input type="text" class="form-control" placeholder="Enter Patta/Chitta No">
+                        <input type="text" class="form-control" name="patta_chitta_no" placeholder="Enter Patta/Chitta No">
                     </div>
                 </div>
                 <div class="col-12 col-lg-4">
                     <div class="form-group">
                         <label>T.S.No</label>
-                        <input type="text" class="form-control" placeholder="Enter T.S.No">
+                        <input type="text" class="form-control" name="ts_no" placeholder="Enter T.S.No">
                     </div>
                 </div>
             </div>
@@ -300,14 +298,14 @@
                                 <i class="fa fa-plus"></i>
                             </button>
                         </td>
-                        <td><input type="text" class="form-control form-control-sm"></td>
-                        <td><input type="text" class="form-control form-control-sm"></td>
-                        <td><input type="text" class="form-control form-control-sm"></td>
-                        <td><input type="text" class="form-control form-control-sm"></td>
-                        <td><input type="text" class="form-control form-control-sm"></td>
-                        <td><input type="text" class="form-control form-control-sm"></td>
-                        <td><input type="text" class="form-control form-control-sm plot-value"></td>
-                        <td><input type="text" class="form-control form-control-sm" placeholder="UnSold"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="plot_no[]"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="plot_extension[]"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="north[]"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="east[]"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="west[]"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="south[]"></td>
+                        <td><input type="text" class="form-control form-control-sm plot-value" name="plot_value[]"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="status[]" placeholder="UnSold" value="unsold"></td>
                     </tr>
                 </tbody>
             </table>
@@ -390,7 +388,7 @@
         <button class="btn btn-light btn-block"><i class="fa fa-arrow-left mr-2"></i> Previous</button>
     </div>
     <div class="col-6">
-        <button class="btn btn-primary btn-block">Submit <i class="fa fa-check ml-2"></i></button>
+        <button type="button" class="btn btn-primary btn-block" onclick="submitGardenProfile()">Submit <i class="fa fa-check ml-2"></i></button>
     </div>
 </div>
 
@@ -432,14 +430,14 @@
                             <i class="fa fa-plus"></i>
                         </button>
                     </td>
-                    <td><input type="text" class="form-control form-control-sm"></td>
-                    <td><input type="text" class="form-control form-control-sm"></td>
-                    <td><input type="text" class="form-control form-control-sm"></td>
-                    <td><input type="text" class="form-control form-control-sm"></td>
-                    <td><input type="text" class="form-control form-control-sm"></td>
-                    <td><input type="text" class="form-control form-control-sm"></td>
-                    <td><input type="text" class="form-control form-control-sm plot-value"></td>
-                    <td><input type="text" class="form-control form-control-sm" placeholder="UnSold"></td>
+                    <td><input type="text" class="form-control form-control-sm" name="plot_no[]"></td>
+                    <td><input type="text" class="form-control form-control-sm" name="plot_extension[]"></td>
+                    <td><input type="text" class="form-control form-control-sm" name="north[]"></td>
+                    <td><input type="text" class="form-control form-control-sm" name="east[]"></td>
+                    <td><input type="text" class="form-control form-control-sm" name="west[]"></td>
+                    <td><input type="text" class="form-control form-control-sm" name="south[]"></td>
+                    <td><input type="text" class="form-control form-control-sm plot-value" name="plot_value[]"></td>
+                    <td><input type="text" class="form-control form-control-sm" name="status[]" placeholder="UnSold" value="unsold"></td>
                 </tr>`;
             table.append(newRow);
             updateAddButtonVisibility();
@@ -485,4 +483,60 @@
 
         updateAddButtonVisibility();
     });
+
+    // Submit garden profile form
+    function submitGardenProfile() {
+        // Get form data
+        const form = document.getElementById('gardenProfileForm');
+        const formData = new FormData(form);
+        
+        // Add plots data from dynamic table
+        const table = document.getElementById('dynamicTable');
+        const rows = table.querySelectorAll('tbody tr');
+        
+        rows.forEach((row, index) => {
+            const inputs = row.querySelectorAll('input');
+            if (inputs.length >= 8) {
+                formData.append('plot_no[]', inputs[0].value || '');
+                formData.append('plot_extension[]', inputs[1].value || '');
+                formData.append('north[]', inputs[2].value || '');
+                formData.append('east[]', inputs[3].value || '');
+                formData.append('west[]', inputs[4].value || '');
+                formData.append('south[]', inputs[5].value || '');
+                formData.append('plot_value[]', inputs[6].value || '');
+                formData.append('status[]', inputs[7].value || 'unsold');
+            }
+        });
+        
+        // Show loading state
+        const submitBtn = document.querySelector('button[onclick="submitGardenProfile()"]');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<i class="fa fa-spinner fa-spin mr-2"></i>Submitting...';
+        submitBtn.disabled = true;
+        
+        // Submit form
+        fetch('<?php echo base_url('submit_garden_profile'); ?>', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                alert('Garden profile saved successfully!');
+                // Optionally redirect to view page
+                window.location.href = '<?php echo base_url('unsold_plots'); ?>';
+            } else {
+                alert('Error: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error submitting form. Please try again.');
+        })
+        .finally(() => {
+            // Restore button state
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        });
+    }
 </script>

@@ -89,8 +89,8 @@
         <div class="dropdown-menu" aria-labelledby="dropdown01">
           <a class="dropdown-item" href="<?php echo base_url('garden_profile'); ?>">Nagar/Garden Profile</a>
           <a class="dropdown-item" href="<?php echo base_url('registered_plot'); ?>">Sold/Registered plot</a>
-          <a class="dropdown-item" href="#">Unsold/Unregistered Plot</a>
-          <a class="dropdown-item" href="#">Booked Plots</a>
+          <a class="dropdown-item" href="<?php echo base_url('unsold_plots'); ?>">Unsold/Unregistered Plot</a>
+          <a class="dropdown-item" href="<?php echo base_url('booked_plots'); ?>">Booked Plots</a>
         </div>
       </li>
       <!-- <li class="nav-item dropdown">
@@ -109,16 +109,28 @@
           <a class="dropdown-item" href="#">Offer Incentives</a>
         </div>
       </li> -->
-      <li>
-        <a href="<?php echo base_url('customer_details'); ?>">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i class="zmdi zmdi-format-list-bulleted"></i> <span>Customer/Buyer Info</span>
         </a>
+        <div class="dropdown-menu" aria-labelledby="dropdown04">
+          <a class="dropdown-item" href="<?php echo base_url('customer_details'); ?>">Add New Customer</a>
+          <a class="dropdown-item" href="<?php echo base_url('customer_list'); ?>">View All Customers</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="<?php echo base_url('simple_test'); ?>">Simple Test</a>
+          <a class="dropdown-item" href="<?php echo base_url('db_test'); ?>">Database Test</a>
+          <a class="dropdown-item" href="<?php echo base_url('debug_customer'); ?>">Debug System</a>
+        </div>
       </li>
 
-      <li>
-        <a href="<?php echo base_url('staff_details'); ?>">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdown05" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i class="zmdi zmdi-grid"></i> <span>Employees/Staff Info</span>
         </a>
+        <div class="dropdown-menu" aria-labelledby="dropdown05">
+          <a class="dropdown-item" href="<?php echo base_url('staff_details'); ?>">Add New Staff</a>
+          <a class="dropdown-item" href="<?php echo base_url('staff_list'); ?>">View All Staff</a>
+        </div>
       </li> 
     </ul>
 
