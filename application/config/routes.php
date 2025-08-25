@@ -3,110 +3,208 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------------
-| URI ROUTING
+| Enhanced RMS URI ROUTING
 | -------------------------------------------------------------------------
-| This file lets you re-map URI requests to specific controller functions.
+| Modern, user-friendly routing configuration for the Real Estate Management System
+| Organized by modules with clean URLs and proper HTTP status codes
 |
-| Typically there is a one-to-one relationship between a URL string
-| and its corresponding controller class/method. The segments in a
-| URL normally follow this pattern:
-|
-|	example.com/class/method/id/
-|
-| In some instances, however, you may want to remap this relationship
-| so that a different class/function is called than the one
-| corresponding to the URL.
-|
-| Please see the user guide for complete details:
-|
-|	https://codeigniter.com/userguide3/general/routing.html
+| Route Structure:
+| - Dashboard & Analytics
+| - Property Management
+| - Customer Management  
+| - Staff Management
+| - Registration Management
+| - Transaction Management
+| - Reports & Analytics
+| - Legacy Routes (for backward compatibility)
 |
 | -------------------------------------------------------------------------
-| RESERVED ROUTES
-| -------------------------------------------------------------------------
-|
-| There are three reserved routes:
-|
-|	$route['default_controller'] = 'welcome';
-|
-| This route indicates which controller class should be loaded if the
-| URI contains no data. In the above example, the "welcome" class
-| would be loaded.
-|
-|	$route['404_override'] = 'errors/page_missing';
-|
-| This route will tell the Router which controller/method to use if those
-| provided in the URL cannot be matched to a valid route.
-|
-|	$route['translate_uri_dashes'] = FALSE;
-|
-| This is not exactly a route, but allows you to automatically route
-| controller and method names that contain dashes. '-' isn't a valid
-| class or method name character, so it requires translation.
-| When you set this option to TRUE, it will replace ALL dashes in the
-| controller and method URI segments.
-|
-| Examples:	my-controller/index	-> my_controller/index
-|		my-controller/my-method	-> my_controller/my_method
 */
 
-$route['default_controller'] = 'welcome';
-$route['404_override'] = '';
-$route['translate_uri_dashes'] = FALSE;
+$route['default_controller'] = 'dashboard';
+$route['404_override'] = 'error_handler/page_not_found';
+$route['translate_uri_dashes'] = TRUE;
 
-// Dashboard Routes
-$route['dashboard'] = 'welcome/dashboard';
-$route['success'] = 'welcome/success';
+/*
+| -------------------------------------------------------------------------
+| DASHBOARD & ANALYTICS ROUTES
+| -------------------------------------------------------------------------
+*/
+$route['dashboard'] = 'dashboard/index';
+$route['dashboard/overview'] = 'dashboard/index';
+$route['analytics'] = 'dashboard/analytics';
+$route['analytics/properties'] = 'analytics_simple/properties';
+$route['analytics/financial'] = 'analytics_simple/financial';
+$route['analytics/customers'] = 'analytics_simple/customers';
+$route['analytics/staff'] = 'dashboard/staff_analytics';
 
-// Plots Routes
+// AJAX Routes for Dashboard
+$route['api/dashboard/data'] = 'dashboard/get_dashboard_data';
+$route['api/analytics/properties'] = 'dashboard/ajax_property_analytics';
+$route['api/analytics/financial'] = 'dashboard/ajax_financial_analytics';
+$route['api/analytics/customers'] = 'dashboard/ajax_customer_analytics';
+$route['api/analytics/staff'] = 'dashboard/ajax_staff_analytics';
+$route['api/dashboard/export'] = 'dashboard/export_dashboard_data';
+
+/*
+| -------------------------------------------------------------------------
+| PROPERTY MANAGEMENT ROUTES
+| -------------------------------------------------------------------------
+*/
+$route['properties'] = 'properties_simple/index';
+$route['properties/create'] = 'properties_simple/create';
+$route['properties/store'] = 'properties/store';
+$route['properties/(:num)'] = 'properties/view/$1';
+$route['properties/(:num)/edit'] = 'properties/edit/$1';
+$route['properties/(:num)/update'] = 'properties/update/$1';
+$route['properties/(:num)/delete'] = 'properties/delete/$1';
+$route['properties/search'] = 'properties/search';
+$route['properties/statistics'] = 'properties/statistics';
+$route['properties/export'] = 'properties/export';
+
+// Property Status Management
+$route['properties/status/change'] = 'properties/change_status';
+$route['properties/staff/assign'] = 'properties/assign_staff';
+$route['properties/staff/unassign'] = 'properties/unassign_staff';
+$route['properties/bulk-actions'] = 'properties/bulk_action';
+
+// Property API Routes
+$route['api/properties/(:num)'] = 'properties/get_property/$1';
+$route['api/properties/by-staff/(:num)'] = 'properties/get_by_staff/$1';
+$route['api/properties/filter-options'] = 'properties/get_filter_options';
+
+/*
+| -------------------------------------------------------------------------
+| CUSTOMER MANAGEMENT ROUTES
+| -------------------------------------------------------------------------
+*/
+$route['customers'] = 'customers_simple/index';
+$route['customers/create'] = 'customers_simple/create';
+$route['customers/store'] = 'customers/store';
+$route['customers/(:num)'] = 'customers/view/$1';
+$route['customers/(:num)/edit'] = 'customers/edit/$1';
+$route['customers/(:num)/update'] = 'customers/update/$1';
+$route['customers/(:num)/delete'] = 'customers/delete/$1';
+$route['customers/(:num)/profile'] = 'customers/profile/$1';
+$route['customers/(:num)/properties'] = 'customers/properties/$1';
+$route['customers/(:num)/transactions'] = 'customers/transactions/$1';
+$route['customers/search'] = 'customers/search';
+$route['customers/analytics'] = 'customers/analytics';
+$route['customers/export'] = 'customers/export';
+
+// Customer API Routes
+$route['api/customers/(:num)'] = 'customers/get_customer/$1';
+$route['api/customers/search'] = 'customers/ajax_search';
+
+/*
+| -------------------------------------------------------------------------
+| STAFF MANAGEMENT ROUTES
+| -------------------------------------------------------------------------
+*/
+$route['staff'] = 'staff_simple/index';
+$route['staff/create'] = 'staff_simple/create';
+$route['staff/store'] = 'staff/store';
+$route['staff/(:num)'] = 'staff/view/$1';
+$route['staff/(:num)/edit'] = 'staff/edit/$1';
+$route['staff/(:num)/update'] = 'staff/update/$1';
+$route['staff/(:num)/delete'] = 'staff/delete/$1';
+$route['staff/(:num)/profile'] = 'staff/profile/$1';
+$route['staff/assignments'] = 'staff/assignments';
+$route['staff/(:num)/assignments'] = 'staff/assignments/$1';
+$route['staff/workload'] = 'staff/workload';
+$route['staff/performance'] = 'staff/performance';
+$route['staff/export'] = 'staff/export';
+
+// Staff Assignment Routes
+$route['staff/assign/property'] = 'staff/assign_property';
+$route['staff/assign/customer'] = 'staff/assign_customer';
+$route['staff/assignments/end'] = 'staff/end_assignment';
+
+// Staff API Routes
+$route['api/staff/(:num)'] = 'staff/get_staff/$1';
+
+/*
+| -------------------------------------------------------------------------
+| REGISTRATION MANAGEMENT ROUTES
+| -------------------------------------------------------------------------
+*/
+$route['registrations'] = 'registrations_simple/index';
+$route['registrations/create'] = 'registrations_simple/create';
+$route['registrations/store'] = 'registrations/store';
+$route['registrations/(:num)'] = 'registrations/view/$1';
+$route['registrations/(:num)/edit'] = 'registrations/edit/$1';
+$route['registrations/(:num)/update'] = 'registrations/update/$1';
+$route['registrations/(:num)/status'] = 'registrations/update_status/$1';
+$route['registrations/customer/(:num)/history'] = 'registrations/customer_history/$1';
+$route['registrations/(:num)/agreement/download'] = 'registrations/download_agreement/$1';
+$route['registrations/statistics'] = 'registrations/statistics';
+$route['registrations/export'] = 'registrations/export';
+
+/*
+| -------------------------------------------------------------------------
+| TRANSACTION MANAGEMENT ROUTES
+| -------------------------------------------------------------------------
+*/
+$route['transactions'] = 'transactions_simple/index';
+$route['transactions/record-payment'] = 'transactions_simple/record_payment';
+$route['transactions/(:num)'] = 'transactions/view/$1';
+$route['transactions/(:num)/edit'] = 'transactions/edit/$1';
+$route['transactions/(:num)/receipt'] = 'transactions/receipt/$1';
+$route['transactions/schedules'] = 'transactions/payment_schedules';
+$route['transactions/schedules/create'] = 'transactions/create_schedule';
+$route['transactions/pending'] = 'transactions/pending_payments';
+$route['transactions/reports'] = 'transactions/financial_reports';
+$route['transactions/export'] = 'transactions/export';
+
+// Transaction API Routes
+$route['api/transactions/balance/(:num)'] = 'transactions/get_balance/$1';
+$route['api/transactions/schedule/(:num)'] = 'transactions/get_schedule/$1';
+
+/*
+| -------------------------------------------------------------------------
+| REPORTS & ANALYTICS ROUTES
+| -------------------------------------------------------------------------
+*/
+$route['reports'] = 'reports_simple/index';
+$route['reports/sales'] = 'reports/sales_report';
+$route['reports/bookings'] = 'reports/booking_report';
+$route['reports/financial'] = 'reports/financial_summary';
+$route['reports/customer-analytics'] = 'reports/customer_analytics';
+$route['reports/staff-performance'] = 'reports/staff_performance';
+$route['reports/property-analytics'] = 'reports/property_analytics';
+$route['reports/export/(:any)'] = 'reports/export/$1';
+
+/*
+| -------------------------------------------------------------------------
+| LEGACY ROUTES (Backward Compatibility)
+| -------------------------------------------------------------------------
+*/
+// Legacy Plot Routes
 $route['plots/registered'] = 'welcome/registered_plot';
 $route['plots/garden'] = 'welcome/garden_profile';
 $route['plots/sold'] = 'welcome/sold_plots';
 $route['plots/unsold'] = 'welcome/unsold_plots';
 $route['plots/booked'] = 'welcome/booked_plots';
 $route['plots/unregistered'] = 'welcome/unregistered_plots';
-$route['plots/unregistered-plots'] = 'welcome/unregistered_plots';
+$route['plots/overview'] = 'welcome/plots_overview';
 
-// Plot API Routes
-$route['plots/sold/(:num)'] = 'welcome/get_sold_plot/$1';
-$route['plots/unsold/(:num)'] = 'welcome/get_unsold_plot/$1';
-$route['plots/booked/(:num)'] = 'welcome/get_booked_plot/$1';
-$route['plots/unregistered/(:num)'] = 'welcome/get_unregistered_plot/$1';
-$route['plots/mark-sold'] = 'welcome/mark_plot_as_sold';
-$route['plots/convert-booking'] = 'welcome/convert_booking_to_sale';
-$route['plots/cancel-booking'] = 'welcome/cancel_booking';
-$route['plots/view/(:num)'] = 'welcome/view_plot/$1';
-
-// Staff Routes
-$route['staff/list'] = 'welcome/staff_list';
-$route['staff/details'] = 'welcome/staff_details';
-$route['staff/(:num)'] = 'welcome/get_staff/$1';
-$route['staff/submit'] = 'welcome/submit_staff';
-$route['staff/view/(:num)'] = 'welcome/view_staff/$1';
-
-// Customer Routes
-$route['customer/list'] = 'welcome/customer_list';
-$route['customer/details'] = 'welcome/customer_details';
-$route['customer/(:num)'] = 'welcome/get_customer/$1';
-$route['customer/submit'] = 'welcome/submit_customer';
-$route['customer/view/(:num)'] = 'welcome/view_customer/$1';
-
-// Legacy Routes (for backward compatibility)
-$route['registered_plot'] = 'welcome/registered_plot';
-$route['garden_profile'] = 'welcome/garden_profile';
-$route['sold_plots'] = 'welcome/sold_plots';
-$route['unsold_plots'] = 'welcome/unsold_plots';
-$route['booked_plots'] = 'welcome/booked_plots';
-$route['unregistered_plots'] = 'welcome/unregistered_plots';
-
-// Short legacy routes for navigation
+// Legacy Short Routes
 $route['registered'] = 'welcome/registered_plot';
 $route['unregistered'] = 'welcome/unregistered_plots';
 $route['booked'] = 'welcome/booked_plots';
 $route['sold'] = 'welcome/sold_plots';
 $route['unsold'] = 'welcome/unsold_plots';
 
-// Plot API Legacy Routes
+// Legacy Customer & Staff Routes
+$route['customer/list'] = 'welcome/customer_list';
+$route['customer/details'] = 'welcome/customer_details';
+$route['customer/(:num)'] = 'welcome/get_customer/$1';
+$route['customer/submit'] = 'welcome/submit_customer';
+$route['staff/list'] = 'welcome/staff_list';
+$route['staff/details'] = 'welcome/staff_details';
+$route['staff/submit'] = 'welcome/submit_staff';
+
+// Legacy API Routes
 $route['get_sold_plot/(:num)'] = 'welcome/get_sold_plot/$1';
 $route['get_unsold_plot/(:num)'] = 'welcome/get_unsold_plot/$1';
 $route['get_booked_plot/(:num)'] = 'welcome/get_booked_plot/$1';
@@ -115,30 +213,54 @@ $route['mark_plot_as_sold'] = 'welcome/mark_plot_as_sold';
 $route['convert_booking_to_sale'] = 'welcome/convert_booking_to_sale';
 $route['cancel_booking'] = 'welcome/cancel_booking';
 
-// New Plot Management Routes
-$route['plots/submit-registered'] = 'welcome/submit_registered_plot';
-$route['plots/submit-booking'] = 'welcome/submit_plot_booking';
-$route['plots/submit-sale'] = 'welcome/submit_plot_sale';
-$route['plots/overview'] = 'welcome/plots_overview';
-$route['garden/details/(:num)'] = 'welcome/garden_details/$1';
-$route['garden/details'] = 'welcome/garden_details';
+/*
+| -------------------------------------------------------------------------
+| UTILITY & SYSTEM ROUTES
+| -------------------------------------------------------------------------
+*/
+// System Routes
+$route['success'] = 'welcome/success';
+$route['home'] = 'dashboard/index';
 
-// Customer and Staff Legacy Routes
-$route['customer_details'] = 'welcome/customer_details';
-$route['submit_customer'] = 'welcome/submit_customer';
-$route['customer_list'] = 'welcome/customer_list';
-$route['get_customer/(:num)'] = 'welcome/get_customer/$1';
-$route['staff_details'] = 'welcome/staff_details';
-$route['submit_staff'] = 'welcome/submit_staff';
-$route['staff_list'] = 'welcome/staff_list';
-$route['get_staff/(:num)'] = 'welcome/get_staff/$1';
+// Development & Testing Routes (Remove in production)
+$route['debug/customer'] = 'welcome/debug_customer';
+$route['test/simple'] = 'welcome/simple_test';
+$route['test/database'] = 'welcome/db_test';
+$route['test/connection'] = 'welcome/test_db_connection';
+$route['migrate/customers'] = 'welcome/create_customers_table';
 
-// Utility/Test Routes
-$route['debug_customer'] = 'welcome/debug_customer';
-$route['simple_test'] = 'welcome/simple_test';
-$route['db_test'] = 'welcome/db_test';
-$route['check_table_exists'] = 'welcome/check_table_exists';
-$route['test_db_connection'] = 'welcome/test_db_connection';
-$route['create_customers_table'] = 'welcome/create_customers_table';
-$route['get_all_customers'] = 'welcome/get_all_customers';
-$route['test-customer'] = 'welcome/test_customer';
+/*
+| -------------------------------------------------------------------------
+| API ROUTES
+| -------------------------------------------------------------------------
+*/
+$route['api/search/global'] = 'api/search_global';
+$route['api/search/suggestions'] = 'api/search_suggestions';
+$route['api/notifications'] = 'api/notifications';
+$route['api/notifications/mark-read'] = 'api/notifications_mark_read';
+$route['api/navigation/menu'] = 'api/navigation_menu';
+
+/*
+| -------------------------------------------------------------------------
+| PERFORMANCE MONITORING ROUTES
+| -------------------------------------------------------------------------
+*/
+$route['performance'] = 'performance/index';
+$route['performance/clear-cache'] = 'performance/clear_cache';
+$route['performance/warm-cache'] = 'performance/warm_cache';
+$route['performance/clean-assets'] = 'performance/clean_assets';
+$route['performance/clean-images'] = 'performance/clean_images';
+$route['performance/optimize-database'] = 'performance/optimize_database';
+$route['performance/test-speed'] = 'performance/test_speed';
+$route['performance/batch-optimize-images'] = 'performance/batch_optimize_images';
+$route['performance/generate-report'] = 'performance/generate_report';
+$route['api/performance/metrics'] = 'performance/get_metrics';
+
+/*
+| -------------------------------------------------------------------------
+| ERROR HANDLING ROUTES
+| -------------------------------------------------------------------------
+*/
+$route['error/404'] = 'error_handler/page_not_found';
+$route['error/500'] = 'error_handler/server_error';
+$route['error/403'] = 'error_handler/access_denied';

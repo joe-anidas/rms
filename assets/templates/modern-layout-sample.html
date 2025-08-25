@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern RMS - Sample Layout</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="../css/bootstrap5.min.css" rel="stylesheet">
+    
+    <!-- Modern Theme CSS -->
+    <link href="../css/modern-theme.css" rel="stylesheet">
+    <link href="../css/modern-components.css" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Modern Sidebar -->
+    <nav class="modern-sidebar" aria-label="Main navigation">
+        <div class="sidebar-header">
+            <img src="../images/logo-icon.png" alt="RMS Logo" class="sidebar-logo">
+            <span class="sidebar-title">RMS Admin</span>
+        </div>
+        
+        <div class="sidebar-nav">
+            <a href="#" class="sidebar-nav-item active">
+                <i class="fas fa-tachometer-alt sidebar-nav-icon"></i>
+                Dashboard
+            </a>
+            <a href="#" class="sidebar-nav-item">
+                <i class="fas fa-home sidebar-nav-icon"></i>
+                Properties
+            </a>
+            <a href="#" class="sidebar-nav-item">
+                <i class="fas fa-users sidebar-nav-icon"></i>
+                Customers
+            </a>
+            <a href="#" class="sidebar-nav-item">
+                <i class="fas fa-user-tie sidebar-nav-icon"></i>
+                Staff
+            </a>
+            <a href="#" class="sidebar-nav-item">
+                <i class="fas fa-file-contract sidebar-nav-icon"></i>
+                Registrations
+            </a>
+            <a href="#" class="sidebar-nav-item">
+                <i class="fas fa-money-bill-wave sidebar-nav-icon"></i>
+                Transactions
+            </a>
+            <a href="#" class="sidebar-nav-item">
+                <i class="fas fa-chart-bar sidebar-nav-icon"></i>
+                Reports
+            </a>
+        </div>
+    </nav>
+
+    <!-- Modern Topbar -->
+    <header class="modern-topbar topbar-with-sidebar">
+        <button class="topbar-menu-toggle" aria-label="Toggle sidebar">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <h1 class="topbar-title">Dashboard</h1>
+        
+        <div class="topbar-actions">
+            <button class="modern-btn modern-btn-outline" data-tooltip="Notifications">
+                <i class="fas fa-bell"></i>
+            </button>
+            <button class="modern-btn modern-btn-outline" data-tooltip="Settings">
+                <i class="fas fa-cog"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content main-content-with-sidebar">
+        <!-- Breadcrumb -->
+        <nav class="modern-breadcrumb" aria-label="Breadcrumb">
+            <div class="breadcrumb-item">
+                <a href="#" class="breadcrumb-link">Home</a>
+                <span class="breadcrumb-separator">/</span>
+            </div>
+            <div class="breadcrumb-item">Dashboard</div>
+        </nav>
+
+        <!-- Metrics Grid -->
+        <div class="dashboard-grid dashboard-grid-4 mb-8">
+            <div class="metric-card metric-card-primary">
+                <div class="metric-value">156</div>
+                <div class="metric-label">Total Properties</div>
+                <div class="metric-change">+12% from last month</div>
+            </div>
+            
+            <div class="metric-card metric-card-success">
+                <div class="metric-value">89</div>
+                <div class="metric-label">Properties Sold</div>
+                <div class="metric-change">+8% from last month</div>
+            </div>
+            
+            <div class="metric-card metric-card-warning">
+                <div class="metric-value">23</div>
+                <div class="metric-label">Pending Payments</div>
+                <div class="metric-change">-5% from last month</div>
+            </div>
+            
+            <div class="metric-card metric-card-info">
+                <div class="metric-value">₹2.4M</div>
+                <div class="metric-label">Total Revenue</div>
+                <div class="metric-change">+15% from last month</div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="dashboard-grid dashboard-grid-2 mb-8">
+            <div class="chart-container">
+                <div class="chart-header">
+                    <h3 class="chart-title">Property Sales Trend</h3>
+                    <div class="filter-group">
+                        <select class="filter-select">
+                            <option>Last 6 months</option>
+                            <option>Last year</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="chart-canvas">
+                    <canvas id="salesChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-header">
+                    <h3 class="chart-title">Property Status Distribution</h3>
+                </div>
+                <div class="chart-canvas">
+                    <canvas id="statusChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activities -->
+        <div class="modern-card mb-8">
+            <div class="modern-card-header">
+                <h3 class="modern-card-title">Recent Properties</h3>
+                <a href="#" class="modern-btn modern-btn-primary modern-btn-sm">View All</a>
+            </div>
+            <div class="modern-card-body p-0">
+                <div class="modern-table">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Property</th>
+                                <th>Location</th>
+                                <th>Price</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="property-image-sm bg-secondary rounded me-3" style="width: 40px; height: 40px;"></div>
+                                        <div>
+                                            <div class="font-medium">Garden Villa Plot</div>
+                                            <div class="text-sm text-secondary">2400 sq ft</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Whitefield, Bangalore</td>
+                                <td>₹45,00,000</td>
+                                <td><span class="modern-badge modern-badge-success">Available</span></td>
+                                <td>
+                                    <button class="modern-btn modern-btn-outline modern-btn-sm">View</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="property-image-sm bg-secondary rounded me-3" style="width: 40px; height: 40px;"></div>
+                                        <div>
+                                            <div class="font-medium">Luxury Apartment</div>
+                                            <div class="text-sm text-secondary">1800 sq ft</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Koramangala, Bangalore</td>
+                                <td>₹85,00,000</td>
+                                <td><span class="modern-badge modern-badge-danger">Sold</span></td>
+                                <td>
+                                    <button class="modern-btn modern-btn-outline modern-btn-sm">View</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="property-image-sm bg-secondary rounded me-3" style="width: 40px; height: 40px;"></div>
+                                        <div>
+                                            <div class="font-medium">Commercial Plot</div>
+                                            <div class="text-sm text-secondary">3200 sq ft</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Electronic City, Bangalore</td>
+                                <td>₹1,20,00,000</td>
+                                <td><span class="modern-badge modern-badge-warning">Booked</span></td>
+                                <td>
+                                    <button class="modern-btn modern-btn-outline modern-btn-sm">View</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Property Cards Grid -->
+        <div class="dashboard-grid dashboard-grid-3">
+            <div class="property-card">
+                <div class="property-image"></div>
+                <div class="property-content">
+                    <h4 class="property-title">Sunrise Garden Villa</h4>
+                    <p class="property-location">Whitefield, Bangalore</p>
+                    
+                    <div class="property-details">
+                        <div class="property-detail">
+                            <div class="property-detail-label">Size</div>
+                            <div class="property-detail-value">2400 sq ft</div>
+                        </div>
+                        <div class="property-detail">
+                            <div class="property-detail-label">Price</div>
+                            <div class="property-detail-value">₹45,00,000</div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="property-status property-status-available">Available</span>
+                        <div class="property-actions">
+                            <button class="modern-btn modern-btn-outline modern-btn-sm">View</button>
+                            <button class="modern-btn modern-btn-primary modern-btn-sm">Edit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="customer-card">
+                <div class="customer-header">
+                    <div class="customer-avatar">JD</div>
+                    <div class="customer-info">
+                        <div class="customer-name">John Doe</div>
+                        <div class="customer-contact">+91 98765 43210</div>
+                    </div>
+                </div>
+                
+                <div class="customer-stats">
+                    <div class="customer-stat">
+                        <div class="customer-stat-value">3</div>
+                        <div class="customer-stat-label">Properties</div>
+                    </div>
+                    <div class="customer-stat">
+                        <div class="customer-stat-value">₹2.4M</div>
+                        <div class="customer-stat-label">Total Value</div>
+                    </div>
+                    <div class="customer-stat">
+                        <div class="customer-stat-value">85%</div>
+                        <div class="customer-stat-label">Paid</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="staff-card">
+                <div class="staff-header">
+                    <div class="staff-avatar">SM</div>
+                    <div class="staff-name">Sarah Miller</div>
+                    <div class="staff-role">Sales Manager</div>
+                </div>
+                
+                <div class="staff-body">
+                    <div class="staff-assignments">
+                        <div class="staff-assignment">
+                            <div class="staff-assignment-count">12</div>
+                            <div class="staff-assignment-label">Properties</div>
+                        </div>
+                        <div class="staff-assignment">
+                            <div class="staff-assignment-count">8</div>
+                            <div class="staff-assignment-label">Customers</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Notification Container -->
+    <div class="notification-container"></div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Modern Theme JS -->
+    <script src="../js/modern-theme.js"></script>
+    
+    <!-- Sample Chart Initialization -->
+    <script>
+        // Initialize sample charts
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sales Trend Chart
+            const salesCtx = document.getElementById('salesChart');
+            if (salesCtx) {
+                new Chart(salesCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                        datasets: [{
+                            label: 'Properties Sold',
+                            data: [12, 19, 15, 25, 22, 30],
+                            borderColor: 'rgb(59, 130, 246)',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Status Distribution Chart
+            const statusCtx = document.getElementById('statusChart');
+            if (statusCtx) {
+                new Chart(statusCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Available', 'Sold', 'Booked'],
+                        datasets: [{
+                            data: [45, 35, 20],
+                            backgroundColor: [
+                                'rgb(34, 197, 94)',
+                                'rgb(239, 68, 68)',
+                                'rgb(245, 158, 11)'
+                            ]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Demo notification
+            setTimeout(() => {
+                ModernTheme.showSuccess('Welcome!', 'Modern RMS theme loaded successfully.');
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

@@ -62,26 +62,22 @@
    
   </div><!--End wrapper-->
 
-  <!-- Bootstrap core JavaScript-->
-  <script src="<?php base_url(); ?>assets/js/jquery.min.js"></script>
-  <script src="<?php base_url(); ?>assets/js/popper.min.js"></script>
-  <script src="<?php base_url(); ?>assets/js/bootstrap.min.js"></script>
-	
- <!-- simplebar js -->
-  <script src="<?php base_url(); ?>assets/plugins/simplebar/js/simplebar.js"></script>
-  <!-- sidebar-menu js -->
-  <script src="<?php base_url(); ?>assets/js/sidebar-menu.js"></script>
-  <!-- loader scripts -->
-  <!-- <script src="<?php //base_url(); ?>assets/js/jquery.loading-indicator.js"></script> -->
-  <!-- Custom scripts -->
-  <script src="<?php base_url(); ?>assets/js/app-script.js"></script>
-  <!-- Chart js -->
+  <!-- Core JavaScript Files -->
+  <script src="<?php echo base_url('assets/js/jquery.min.js'); ?>"></script>
+  <script src="<?php echo base_url('assets/js/popper.min.js'); ?>"></script>
+  <script src="<?php echo base_url('assets/js/bootstrap.min.js'); ?>"></script>
+  <script src="<?php echo base_url('assets/js/sidebar-menu.js'); ?>"></script>
+  <script src="<?php echo base_url('assets/js/app-script.js'); ?>"></script>
   
-  <script src="<?php base_url(); ?>assets/plugins/Chart.js/Chart.min.js"></script>
- 
-  <!-- Index js -->
-  <script src="<?php base_url(); ?>assets/js/index.js"></script>
+  <!-- Chart.js for dashboard -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <!-- Bootstrap Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+    // Set base URL for JavaScript
+    var base_url = '<?php echo base_url(); ?>';
+    
     $(document).ready(function(){
       
     });

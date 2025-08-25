@@ -326,11 +326,231 @@ class Reports_model extends CI_Model {
                     return $this->get_staff_performance();
                 case 'financial':
                     return $this->get_financial_summary($start_date, $end_date);
+                case 'transactions':
+                    return $this->get_transaction_report($start_date, $end_date, $garden_id);
                 default:
                     return array();
             }
         } catch (Exception $e) {
             error_log('Error getting export data: ' . $e->getMessage());
+            return array();
+        }
+    }
+    
+    /**
+     * Get transaction report data
+     * @param string $start_date Start date
+     * @param string $end_date End date
+     * @param int $garden_id Garden ID filter
+     * @return array Transaction report data
+     */
+    public function get_transaction_report($start_date = null, $end_date = null, $garden_id = null) {
+        try {
+            $this->db->select('
+                t.*,
+                r.registration_number,
+                r.property_id,
+                c.plot_buyer_name,
+                p.garden_name
+            ');
+            $this->db->from('transactions t');
+            $this->db->join('registrations r', 'r.id = t.registration_id', 'left');
+            $this->db->join('customers c', 'c.id = r.customer_id', 'left');
+            $this->db->join('properties p', 'p.id = r.property_id', 'left');
+            
+            if ($start_date) {
+                $this->db->where('t.payment_date >=', $start_date);
+            }
+            if ($end_date) {
+                $this->db->where('t.payment_date <=', $end_date);
+            }
+            if ($garden_id) {
+                $this->db->where('r.property_id', $garden_id);
+            }
+            
+            $this->db->order_by('t.payment_date', 'DESC');
+            $this->db->order_by('t.id', 'DESC');
+            
+            $result = $this->db->get();
+            return $result->num_rows() > 0 ? $result->result_array() : array();
+            
+        } catch (Exception $e) {
+            error_log('Error getting transaction report: ' . $e->getMessage());
+            return array();
+        }
+    }
+    
+    /**
+     * Get advanced analytics data
+     * @param array $filters Filter parameters
+     * @return array Analytics data
+     */
+    public function get_advanced_analytics($filters = array()) {
+        try {
+            $analytics = array();
+            
+            // Revenue trends
+            $analytics['revenue_trends'] = $this->get_revenue_trends($filters);
+            
+            // Customer acquisition trends
+            $analytics['customer_trends'] = $this->get_customer_acquisition_trends($filters);
+            
+            // Property performance metrics
+            $analytics['property_metrics'] = $this->get_property_performance_metrics($filters);
+            
+            // Staff performance metrics
+            $analytics['staff_metrics'] = $this->get_staff_performance_metrics($filters);
+            
+            return $analytics;
+            
+        } catch (Exception $e) {
+            error_log('Error getting advanced analytics: ' . $e->getMessage());
+            return array();
+        }
+    }
+    
+    /**
+     * Get revenue trends over time
+     * @param array $filters Filter parameters
+     * @return array Revenue trends data
+     */
+    private function get_revenue_trends($filters = array()) {
+        try {
+            $start_date = isset($filters['start_date']) ? $filters['start_date'] : date('Y-m-01', strtotime('-12 months'));
+            $end_date = isset($filters['end_date']) ? $filters['end_date'] : date('Y-m-t');
+            
+            $this->db->select('
+                DATE_FORMAT(payment_date, "%Y-%m") as month,
+                SUM(amount) as monthly_revenue,
+                COUNT(*) as transaction_count,
+                AVG(amount) as average_transaction
+            ');
+            $this->db->from('transactions');
+            $this->db->where('payment_date >=', $start_date);
+            $this->db->where('payment_date <=', $end_date);
+            $this->db->group_by('DATE_FORMAT(payment_date, "%Y-%m")');
+            $this->db->order_by('month', 'ASC');
+            
+            $result = $this->db->get();
+            return $result->num_rows() > 0 ? $result->result_array() : array();
+            
+        } catch (Exception $e) {
+            error_log('Error getting revenue trends: ' . $e->getMessage());
+            return array();
+        }
+    }
+    
+    /**
+     * Get customer acquisition trends
+     * @param array $filters Filter parameters
+     * @return array Customer trends data
+     */
+    private function get_customer_acquisition_trends($filters = array()) {
+        try {
+            $start_date = isset($filters['start_date']) ? $filters['start_date'] : date('Y-m-01', strtotime('-12 months'));
+            $end_date = isset($filters['end_date']) ? $filters['end_date'] : date('Y-m-t');
+            
+            $this->db->select('
+                DATE_FORMAT(created_at, "%Y-%m") as month,
+                COUNT(*) as new_customers
+            ');
+            $this->db->from('customers');
+            $this->db->where('created_at >=', $start_date);
+            $this->db->where('created_at <=', $end_date);
+            $this->db->group_by('DATE_FORMAT(created_at, "%Y-%m")');
+            $this->db->order_by('month', 'ASC');
+            
+            $result = $this->db->get();
+            return $result->num_rows() > 0 ? $result->result_array() : array();
+            
+        } catch (Exception $e) {
+            error_log('Error getting customer acquisition trends: ' . $e->getMessage());
+            return array();
+        }
+    }
+    
+    /**
+     * Get property performance metrics
+     * @param array $filters Filter parameters
+     * @return array Property metrics data
+     */
+    private function get_property_performance_metrics($filters = array()) {
+        try {
+            $this->db->select('
+                p.id,
+                p.garden_name,
+                p.district,
+                COUNT(r.id) as total_registrations,
+                SUM(CASE WHEN p.status = "sold" THEN 1 ELSE 0 END) as sold_count,
+                SUM(CASE WHEN p.status = "booked" THEN 1 ELSE 0 END) as booked_count,
+                SUM(t.amount) as total_revenue,
+                AVG(t.amount) as average_transaction
+            ');
+            $this->db->from('properties p');
+            $this->db->join('registrations r', 'r.property_id = p.id', 'left');
+            $this->db->join('transactions t', 't.registration_id = r.id', 'left');
+            
+            if (isset($filters['garden_id']) && $filters['garden_id']) {
+                $this->db->where('p.id', $filters['garden_id']);
+            }
+            if (isset($filters['start_date']) && $filters['start_date']) {
+                $this->db->where('t.payment_date >=', $filters['start_date']);
+            }
+            if (isset($filters['end_date']) && $filters['end_date']) {
+                $this->db->where('t.payment_date <=', $filters['end_date']);
+            }
+            
+            $this->db->group_by('p.id');
+            $this->db->order_by('total_revenue', 'DESC');
+            
+            $result = $this->db->get();
+            return $result->num_rows() > 0 ? $result->result_array() : array();
+            
+        } catch (Exception $e) {
+            error_log('Error getting property performance metrics: ' . $e->getMessage());
+            return array();
+        }
+    }
+    
+    /**
+     * Get staff performance metrics
+     * @param array $filters Filter parameters
+     * @return array Staff metrics data
+     */
+    private function get_staff_performance_metrics($filters = array()) {
+        try {
+            $this->db->select('
+                s.id,
+                s.employee_name,
+                s.designation,
+                COUNT(pa.id) as total_assignments,
+                COUNT(DISTINCT r.id) as total_registrations,
+                SUM(t.amount) as total_sales,
+                AVG(t.amount) as average_sale
+            ');
+            $this->db->from('staff s');
+            $this->db->join('property_assignments pa', 'pa.staff_id = s.id', 'left');
+            $this->db->join('registrations r', 'r.property_id = pa.property_id', 'left');
+            $this->db->join('transactions t', 't.registration_id = r.id', 'left');
+            
+            if (isset($filters['staff_id']) && $filters['staff_id']) {
+                $this->db->where('s.id', $filters['staff_id']);
+            }
+            if (isset($filters['start_date']) && $filters['start_date']) {
+                $this->db->where('t.payment_date >=', $filters['start_date']);
+            }
+            if (isset($filters['end_date']) && $filters['end_date']) {
+                $this->db->where('t.payment_date <=', $filters['end_date']);
+            }
+            
+            $this->db->group_by('s.id');
+            $this->db->order_by('total_sales', 'DESC');
+            
+            $result = $this->db->get();
+            return $result->num_rows() > 0 ? $result->result_array() : array();
+            
+        } catch (Exception $e) {
+            error_log('Error getting staff performance metrics: ' . $e->getMessage());
             return array();
         }
     }

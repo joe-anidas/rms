@@ -334,7 +334,7 @@ $config['cache_query_string'] = FALSE;
 | https://codeigniter.com/userguide3/libraries/encryption.html
 |
 */
-$config['encryption_key'] = '';
+$config['encryption_key'] = 'rms_secure_key_' . md5('rms_application_2025'); // Generate a proper key in production
 
 /*
 |--------------------------------------------------------------------------
@@ -409,12 +409,12 @@ $config['encryption_key'] = '';
 |       'cookie_httponly') will also affect sessions.
 |
 */
-$config['cookie_prefix']	= '';
+$config['cookie_prefix']	= 'rms_';
 $config['cookie_domain']	= '';
 $config['cookie_path']		= '/';
-$config['cookie_secure']	= FALSE;
-$config['cookie_httponly'] 	= FALSE;
-$config['cookie_samesite'] 	= 'Lax';
+$config['cookie_secure']	= FALSE; // Set to TRUE in production with HTTPS
+$config['cookie_httponly'] 	= TRUE;  // Enhanced security - prevent XSS access to cookies
+$config['cookie_samesite'] 	= 'Strict'; // Enhanced CSRF protection
 
 /*
 |--------------------------------------------------------------------------
@@ -458,12 +458,12 @@ $config['global_xss_filtering'] = FALSE;
 | 'csrf_regenerate' = Regenerate token on every submission
 | 'csrf_exclude_uris' = Array of URIs which ignore CSRF checks
 */
-$config['csrf_protection'] = FALSE;
-$config['csrf_token_name'] = 'csrf_test_name';
-$config['csrf_cookie_name'] = 'csrf_cookie_name';
+$config['csrf_protection'] = TRUE;
+$config['csrf_token_name'] = 'csrf_token';
+$config['csrf_cookie_name'] = 'csrf_cookie';
 $config['csrf_expire'] = 7200;
 $config['csrf_regenerate'] = TRUE;
-$config['csrf_exclude_uris'] = array();
+$config['csrf_exclude_uris'] = array('api/*'); // Exclude API endpoints if needed
 
 /*
 |--------------------------------------------------------------------------

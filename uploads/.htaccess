@@ -1,0 +1,8 @@
+# Deny direct access to uploaded files for security
+<Files "*">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+# Allow access only through the application
+# Files will be served through the download controller method

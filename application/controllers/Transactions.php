@@ -5,381 +5,322 @@ class Transactions extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->helper('url');
-        $this->load->database();
         $this->load->model('Transaction_model');
-        $this->load->model('Garden_model');
+        $this->load->model('Registration_model');
         $this->load->model('Customer_model');
-        $this->load->model('Staff_model');
-        $this->load->model('Theme_model');
+        $this->load->model('Property_model');
+        $this->load->library('form_validation');
+        $this->load->helper(['url', 'form', 'date']);
     }
 
+    /**
+     * Display transactions list
+     */
     public function index() {
-        $data['theme'] = $this->Theme_model->get_theme_path();
-        $data['transactions'] = array();
+        $data['title'] = 'Transaction Management';
         
-        // Get recent transactions
-        try {
-            $data['recent_transactions'] = $this->Transaction_model->get_recent_transactions(10);
-        } catch (Exception $e) {
-            error_log('Error getting recent transactions: ' . $e->getMessage());
-            $data['recent_transactions'] = array();
-        }
-        
+        // Get filter parameters
+        $filters = [
+            'start_date' => $this->input->get('start_date'),
+            'end_date' => $this->input->get('end_date'),
+            'payment_type' => $this->input->get('payment_type'),
+            'payment_method' => $this->input->get('payment_method'),
+            'customer_id' => $this->input->get('customer_id'),
+            'property_id' => $this->input->get('property_id'),
+            'limit' => 50,
+            'offset' => $this->input->get('offset') ?: 0
+        ];
+
+        // Remove empty filters
+        $filters = array_filter($filters, function($value) {
+            return $value !== null && $value !== '';
+        });
+
+        $data['transactions'] = $this->Transaction_model->get_transaction_history($filters);
+        $data['filters'] = $filters;
+        $data['customers'] = $this->Customer_model->get_all_customers();
+        $data['properties'] = $this->Property_model->get_all_properties();
+
         $this->load->view('others/header', $data);
-        $this->load->view('transactions/transactions_list');
+        $this->load->view('transactions/transactions_list', $data);
         $this->load->view('others/footer');
     }
 
-    public function get_all_transactions() {
-        try {
-            $start_date = $this->input->get('start_date');
-            $end_date = $this->input->get('end_date');
-            
-            $transactions = $this->Transaction_model->get_all_transactions($start_date, $end_date);
-            
-            $response = array(
-                'status' => 'success',
-                'data' => $transactions
-            );
-            
-        } catch (Exception $e) {
-            $response = array(
-                'status' => 'error',
-                'message' => $e->getMessage()
-            );
+    /**
+     * Record new payment
+     */
+    public function record_payment($registration_id = null) {
+        if ($registration_id) {
+            $data['registration'] = $this->Registration_model->get_registration($registration_id);
+            if (!$data['registration']) {
+                show_404();
+            }
         }
-        
-        header('Content-Type: application/json');
-        echo json_encode($response);
-    }
 
-    public function record_payment() {
-        $data['theme'] = $this->Theme_model->get_theme_path();
-        
-        // Get available plots for payment
-        try {
-            $data['plots'] = $this->Garden_model->get_plots_by_status(array('sold', 'booked'));
-            $data['customers'] = $this->Customer_model->get_all_customers();
-        } catch (Exception $e) {
-            error_log('Error getting plots/customers: ' . $e->getMessage());
-            $data['plots'] = array();
-            $data['customers'] = array();
-        }
-        
-        $this->load->view('others/header', $data);
-        $this->load->view('transactions/record_payment');
-        $this->load->view('others/footer');
-    }
+        if ($this->input->post()) {
+            $this->form_validation->set_rules('registration_id', 'Registration', 'required|integer');
+            $this->form_validation->set_rules('amount', 'Amount', 'required|decimal|greater_than[0]');
+            $this->form_validation->set_rules('payment_type', 'Payment Type', 'required|in_list[advance,installment,full_payment]');
+            $this->form_validation->set_rules('payment_method', 'Payment Method', 'required|in_list[cash,cheque,bank_transfer,online]');
+            $this->form_validation->set_rules('payment_date', 'Payment Date', 'required');
+            $this->form_validation->set_rules('notes', 'Notes', 'max_length[500]');
 
-    public function submit_payment() {
-        try {
-            // Validate required fields
-            $required_fields = ['plot_id', 'transaction_type', 'amount', 'payment_method', 'payment_date'];
-            foreach ($required_fields as $field) {
-                if (empty($this->input->post($field))) {
-                    throw new Exception("Field '$field' is required");
+            if ($this->form_validation->run()) {
+                $transaction_data = [
+                    'registration_id' => $this->input->post('registration_id'),
+                    'amount' => $this->input->post('amount'),
+                    'payment_type' => $this->input->post('payment_type'),
+                    'payment_method' => $this->input->post('payment_method'),
+                    'payment_date' => $this->input->post('payment_date'),
+                    'notes' => $this->input->post('notes')
+                ];
+
+                // Validate transaction data
+                $validation = $this->Transaction_model->validate_transaction_data($transaction_data);
+                if (!$validation['valid']) {
+                    $data['error'] = implode('<br>', $validation['errors']);
+                } else {
+                    $transaction_id = $this->Transaction_model->record_payment($transaction_data);
+                    if ($transaction_id) {
+                        $this->session->set_flashdata('success', 'Payment recorded successfully. Receipt #' . 
+                            $this->Transaction_model->get_transaction($transaction_id)['receipt_number']);
+                        redirect('transactions/view/' . $transaction_id);
+                    } else {
+                        $data['error'] = 'Failed to record payment. Please try again.';
+                    }
                 }
             }
-            
-            // Prepare transaction data
-            $transaction_data = array(
-                'plot_id' => $this->input->post('plot_id'),
-                'customer_id' => $this->input->post('customer_id') ?: null,
-                'transaction_type' => $this->input->post('transaction_type'),
-                'amount' => $this->input->post('amount'),
-                'payment_method' => $this->input->post('payment_method'),
-                'payment_date' => $this->input->post('payment_date'),
-                'receipt_number' => $this->input->post('receipt_number') ?: null,
-                'cheque_number' => $this->input->post('cheque_number') ?: null,
-                'bank_name' => $this->input->post('bank_name') ?: null,
-                'reference_number' => $this->input->post('reference_number') ?: null,
-                'installment_number' => $this->input->post('installment_number') ?: null,
-                'total_installments' => $this->input->post('total_installments') ?: null,
-                'notes' => $this->input->post('notes') ?: null,
-                'status' => 'completed'
-            );
-            
-            // Record the transaction
-            $transaction_id = $this->Transaction_model->record_transaction($transaction_data);
-            
-            if ($transaction_id) {
-                $response = array(
-                    'status' => 'success',
-                    'message' => 'Payment recorded successfully',
-                    'transaction_id' => $transaction_id
-                );
-            } else {
-                throw new Exception('Failed to record payment');
-            }
-            
-        } catch (Exception $e) {
-            $response = array(
-                'status' => 'error',
-                'message' => $e->getMessage()
-            );
         }
-        
-        // Return JSON response
-        header('Content-Type: application/json');
-        echo json_encode($response);
-    }
 
-    public function payment_schedules() {
-        $data['theme'] = $this->Theme_model->get_theme_path();
-        
-        // Get payment schedules
-        try {
-            $plot_id = $this->input->get('plot_id');
-            if ($plot_id) {
-                $data['schedules'] = $this->Transaction_model->get_payment_schedules_by_plot($plot_id);
-            } else {
-                $data['schedules'] = array();
-            }
-            
-            $data['plots'] = $this->Garden_model->get_plots_by_status(array('sold', 'booked'));
-        } catch (Exception $e) {
-            error_log('Error getting payment schedules: ' . $e->getMessage());
-            $data['schedules'] = array();
-            $data['plots'] = array();
-        }
+        $data['title'] = 'Record Payment';
+        $data['registrations'] = $this->Registration_model->get_active_registrations();
         
         $this->load->view('others/header', $data);
-        $this->load->view('transactions/payment_schedules');
+        $this->load->view('transactions/record_payment', $data);
         $this->load->view('others/footer');
     }
 
-    public function create_schedule() {
-        $data['theme'] = $this->Theme_model->get_theme_path();
-        
-        // Get available plots
-        try {
-            $data['plots'] = $this->Garden_model->get_plots_by_status(array('sold', 'booked'));
-            $data['customers'] = $this->Customer_model->get_all_customers();
-        } catch (Exception $e) {
-            error_log('Error getting plots/customers: ' . $e->getMessage());
-            $data['plots'] = array();
-            $data['customers'] = array();
+    /**
+     * View transaction details
+     */
+    public function view($transaction_id) {
+        $data['transaction'] = $this->Transaction_model->get_transaction($transaction_id);
+        if (!$data['transaction']) {
+            show_404();
         }
-        
+
+        $data['balance_info'] = $this->Transaction_model->calculate_balance($data['transaction']['registration_id']);
+        $data['payment_schedule'] = $this->Transaction_model->get_payment_schedule($data['transaction']['registration_id']);
+        $data['title'] = 'Transaction Details';
+
         $this->load->view('others/header', $data);
-        $this->load->view('transactions/create_schedule');
+        $this->load->view('transactions/transaction_view', $data);
         $this->load->view('others/footer');
     }
 
-    public function submit_schedule() {
-        try {
-            // Validate required fields
-            $required_fields = ['plot_id', 'schedule_type', 'due_date', 'amount'];
-            foreach ($required_fields as $field) {
-                if (empty($this->input->post($field))) {
-                    throw new Exception("Field '$field' is required");
+    /**
+     * Generate and display receipt
+     */
+    public function receipt($transaction_id) {
+        $data['receipt'] = $this->Transaction_model->generate_receipt($transaction_id);
+        if (!$data['receipt']) {
+            show_404();
+        }
+
+        $data['title'] = 'Payment Receipt';
+        
+        $this->load->view('transactions/receipt', $data);
+    }
+
+    /**
+     * Create payment schedule
+     */
+    public function create_schedule($registration_id) {
+        $data['registration'] = $this->Registration_model->get_registration($registration_id);
+        if (!$data['registration']) {
+            show_404();
+        }
+
+        if ($this->input->post()) {
+            $this->form_validation->set_rules('total_amount', 'Total Amount', 'required|decimal|greater_than[0]');
+            $this->form_validation->set_rules('installment_count', 'Number of Installments', 'required|integer|greater_than[0]|less_than_equal_to[60]');
+            $this->form_validation->set_rules('start_date', 'Start Date', 'required');
+
+            if ($this->form_validation->run()) {
+                $schedule_data = [
+                    'total_amount' => $this->input->post('total_amount'),
+                    'installment_count' => $this->input->post('installment_count'),
+                    'start_date' => $this->input->post('start_date')
+                ];
+
+                if ($this->Transaction_model->create_payment_schedule($registration_id, $schedule_data)) {
+                    $this->session->set_flashdata('success', 'Payment schedule created successfully.');
+                    redirect('transactions/schedule/' . $registration_id);
+                } else {
+                    $data['error'] = 'Failed to create payment schedule. Please try again.';
                 }
             }
-            
-            // Prepare schedule data
-            $schedule_data = array(
-                'plot_id' => $this->input->post('plot_id'),
-                'customer_id' => $this->input->post('customer_id') ?: null,
-                'schedule_type' => $this->input->post('schedule_type'),
-                'due_date' => $this->input->post('due_date'),
-                'amount' => $this->input->post('amount'),
-                'installment_number' => $this->input->post('installment_number') ?: null,
-                'total_installments' => $this->input->post('total_installments') ?: null,
-                'notes' => $this->input->post('notes') ?: null,
-                'status' => 'pending'
-            );
-            
-            // Create the payment schedule
-            $result = $this->Transaction_model->create_payment_schedule($schedule_data);
-            
-            if ($result) {
-                $response = array(
-                    'status' => 'success',
-                    'message' => 'Payment schedule created successfully'
-                );
-            } else {
-                throw new Exception('Failed to create payment schedule');
-            }
-            
-        } catch (Exception $e) {
-            $response = array(
-                'status' => 'error',
-                'message' => $e->getMessage()
-            );
         }
+
+        $data['title'] = 'Create Payment Schedule';
         
-        // Return JSON response
-        header('Content-Type: application/json');
-        echo json_encode($response);
+        $this->load->view('others/header', $data);
+        $this->load->view('transactions/create_schedule', $data);
+        $this->load->view('others/footer');
     }
 
+    /**
+     * View payment schedule
+     */
+    public function schedule($registration_id) {
+        $data['registration'] = $this->Registration_model->get_registration($registration_id);
+        if (!$data['registration']) {
+            show_404();
+        }
+
+        $data['payment_schedule'] = $this->Transaction_model->get_payment_schedule($registration_id);
+        $data['transactions'] = $this->Transaction_model->get_transactions_by_registration($registration_id);
+        $data['balance_info'] = $this->Transaction_model->calculate_balance($registration_id);
+        $data['title'] = 'Payment Schedule';
+
+        $this->load->view('others/header', $data);
+        $this->load->view('transactions/payment_schedule', $data);
+        $this->load->view('others/footer');
+    }
+
+    /**
+     * Financial reports
+     */
+    public function reports() {
+        $start_date = $this->input->get('start_date') ?: date('Y-m-01');
+        $end_date = $this->input->get('end_date') ?: date('Y-m-t');
+        $group_by = $this->input->get('group_by') ?: 'day';
+
+        $params = [
+            'start_date' => $start_date,
+            'end_date' => $end_date,
+            'group_by' => $group_by
+        ];
+
+        $data['report'] = $this->Transaction_model->generate_financial_report($params);
+        $data['params'] = $params;
+        $data['title'] = 'Financial Reports';
+
+        $this->load->view('others/header', $data);
+        $this->load->view('transactions/financial_reports', $data);
+        $this->load->view('others/footer');
+    }
+
+    /**
+     * Pending payments
+     */
     public function pending_payments() {
-        $data['theme'] = $this->Theme_model->get_theme_path();
+        $days_ahead = $this->input->get('days_ahead') ?: 30;
         
-        try {
-            $data['pending_payments'] = $this->Transaction_model->get_pending_payments();
-        } catch (Exception $e) {
-            error_log('Error getting pending payments: ' . $e->getMessage());
-            $data['pending_payments'] = array();
-        }
-        
+        $data['pending_payments'] = $this->Transaction_model->get_pending_payments($days_ahead);
+        $data['overdue_payments'] = $this->Transaction_model->get_overdue_payments();
+        $data['days_ahead'] = $days_ahead;
+        $data['title'] = 'Pending Payments';
+
         $this->load->view('others/header', $data);
-        $this->load->view('transactions/pending_payments');
+        $this->load->view('transactions/pending_payments', $data);
         $this->load->view('others/footer');
     }
 
-    public function customer_transactions($customer_id = null) {
-        $data['theme'] = $this->Theme_model->get_theme_path();
-        
-        if (!$customer_id) {
-            $customer_id = $this->input->get('customer_id');
+    /**
+     * Update transaction
+     */
+    public function edit($transaction_id) {
+        $data['transaction'] = $this->Transaction_model->get_transaction($transaction_id);
+        if (!$data['transaction']) {
+            show_404();
         }
-        
-        try {
-            if ($customer_id) {
-                $data['transactions'] = $this->Transaction_model->get_transactions_by_customer($customer_id);
-                $data['payment_summary'] = $this->Transaction_model->get_customer_payment_summary($customer_id);
-                $data['customer'] = $this->Customer_model->get_customer_by_id($customer_id);
-            } else {
-                $data['transactions'] = array();
-                $data['payment_summary'] = array();
-                $data['customer'] = null;
+
+        if ($this->input->post()) {
+            $this->form_validation->set_rules('amount', 'Amount', 'required|decimal|greater_than[0]');
+            $this->form_validation->set_rules('payment_type', 'Payment Type', 'required|in_list[advance,installment,full_payment]');
+            $this->form_validation->set_rules('payment_method', 'Payment Method', 'required|in_list[cash,cheque,bank_transfer,online]');
+            $this->form_validation->set_rules('payment_date', 'Payment Date', 'required');
+            $this->form_validation->set_rules('notes', 'Notes', 'max_length[500]');
+
+            if ($this->form_validation->run()) {
+                $update_data = [
+                    'amount' => $this->input->post('amount'),
+                    'payment_type' => $this->input->post('payment_type'),
+                    'payment_method' => $this->input->post('payment_method'),
+                    'payment_date' => $this->input->post('payment_date'),
+                    'notes' => $this->input->post('notes')
+                ];
+
+                if ($this->Transaction_model->update_transaction($transaction_id, $update_data)) {
+                    $this->session->set_flashdata('success', 'Transaction updated successfully.');
+                    redirect('transactions/view/' . $transaction_id);
+                } else {
+                    $data['error'] = 'Failed to update transaction. Please try again.';
+                }
             }
-        } catch (Exception $e) {
-            error_log('Error getting customer transactions: ' . $e->getMessage());
-            $data['transactions'] = array();
-            $data['payment_summary'] = array();
-            $data['customer'] = null;
         }
+
+        $data['title'] = 'Edit Transaction';
         
         $this->load->view('others/header', $data);
-        $this->load->view('transactions/customer_transactions');
+        $this->load->view('transactions/transaction_edit', $data);
         $this->load->view('others/footer');
     }
 
-    public function plot_transactions($plot_id = null) {
-        $data['theme'] = $this->Theme_model->get_theme_path();
-        
-        if (!$plot_id) {
-            $plot_id = $this->input->get('plot_id');
+    /**
+     * Delete transaction
+     */
+    public function delete($transaction_id) {
+        $transaction = $this->Transaction_model->get_transaction($transaction_id);
+        if (!$transaction) {
+            show_404();
         }
-        
-        try {
-            if ($plot_id) {
-                $data['transactions'] = $this->Transaction_model->get_transactions_by_plot($plot_id);
-                $data['payment_schedules'] = $this->Transaction_model->get_payment_schedules_by_plot($plot_id);
-                $data['plot'] = $this->Garden_model->get_plot_by_id($plot_id);
+
+        if ($this->input->post('confirm_delete')) {
+            if ($this->Transaction_model->delete_transaction($transaction_id)) {
+                $this->session->set_flashdata('success', 'Transaction deleted successfully.');
+                redirect('transactions');
             } else {
-                $data['transactions'] = array();
-                $data['payment_schedules'] = array();
-                $data['plot'] = null;
+                $this->session->set_flashdata('error', 'Failed to delete transaction.');
+                redirect('transactions/view/' . $transaction_id);
             }
-        } catch (Exception $e) {
-            error_log('Error getting plot transactions: ' . $e->getMessage());
-            $data['transactions'] = array();
-            $data['payment_schedules'] = array();
-            $data['plot'] = null;
         }
+
+        $data['transaction'] = $transaction;
+        $data['title'] = 'Delete Transaction';
         
         $this->load->view('others/header', $data);
-        $this->load->view('transactions/plot_transactions');
+        $this->load->view('transactions/transaction_delete', $data);
         $this->load->view('others/footer');
     }
 
-    public function delete_transaction($transaction_id) {
-        try {
-            $result = $this->Transaction_model->delete_transaction($transaction_id);
-            
-            if ($result) {
-                $response = array(
-                    'status' => 'success',
-                    'message' => 'Transaction deleted successfully'
-                );
-            } else {
-                throw new Exception('Failed to delete transaction');
-            }
-            
-        } catch (Exception $e) {
-            $response = array(
-                'status' => 'error',
-                'message' => $e->getMessage()
-            );
-        }
-        
-        // Return JSON response
-        header('Content-Type: application/json');
-        echo json_encode($response);
-    }
-
-    public function export_transactions() {
-        try {
-            $start_date = $this->input->get('start_date');
-            $end_date = $this->input->get('end_date');
-            $plot_id = $this->input->get('plot_id');
-            $customer_id = $this->input->get('customer_id');
-            
-            $transactions = array();
-            
-            if ($plot_id) {
-                $transactions = $this->Transaction_model->get_transactions_by_plot($plot_id);
-            } elseif ($customer_id) {
-                $transactions = $this->Transaction_model->get_transactions_by_customer($customer_id);
-            } else {
-                // Get all transactions within date range
-                $transactions = $this->Transaction_model->get_all_transactions($start_date, $end_date);
-            }
-            
-            // Set headers for CSV download
-            header('Content-Type: text/csv');
-            header('Content-Disposition: attachment; filename="transactions_' . date('Y-m-d') . '.csv"');
-            
-            // Create CSV output
-            $output = fopen('php://output', 'w');
-            
-            // Add headers
-            fputcsv($output, array('Date', 'Plot', 'Customer', 'Type', 'Amount', 'Method', 'Status'));
-            
-            // Add data
-            foreach ($transactions as $transaction) {
-                fputcsv($output, array(
-                    $transaction->payment_date,
-                    $transaction->plot_no ?? 'N/A',
-                    $transaction->customer_name ?? 'N/A',
-                    $transaction->transaction_type,
-                    $transaction->amount,
-                    $transaction->payment_method,
-                    $transaction->status
-                ));
-            }
-            
-            fclose($output);
-            
-        } catch (Exception $e) {
-            error_log('Error exporting transactions: ' . $e->getMessage());
-            echo "Error exporting transactions: " . $e->getMessage();
+    /**
+     * AJAX: Get registration balance
+     */
+    public function ajax_get_balance() {
+        $registration_id = $this->input->post('registration_id');
+        if ($registration_id) {
+            $balance_info = $this->Transaction_model->calculate_balance($registration_id);
+            echo json_encode($balance_info);
+        } else {
+            echo json_encode(['error' => 'Registration ID required']);
         }
     }
 
-    public function get_recent_transactions() {
-        try {
-            $limit = $this->input->get('limit') ?: 10;
-            
-            $transactions = $this->Transaction_model->get_recent_transactions($limit);
-            
-            $response = array(
-                'status' => 'success',
-                'data' => $transactions
-            );
-            
-        } catch (Exception $e) {
-            $response = array(
-                'status' => 'error',
-                'message' => $e->getMessage()
-            );
-        }
-        
-        header('Content-Type: application/json');
-        echo json_encode($response);
+    /**
+     * AJAX: Get payment statistics
+     */
+    public function ajax_get_statistics() {
+        $filters = [
+            'start_date' => $this->input->post('start_date'),
+            'end_date' => $this->input->post('end_date'),
+            'payment_type' => $this->input->post('payment_type'),
+            'payment_method' => $this->input->post('payment_method')
+        ];
+
+        $filters = array_filter($filters);
+        $statistics = $this->Transaction_model->get_payment_statistics($filters);
+        echo json_encode($statistics);
     }
 }
