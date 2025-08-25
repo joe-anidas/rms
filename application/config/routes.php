@@ -84,6 +84,12 @@ $route['customer/details'] = 'welcome/customer_details';
 $route['customer/(:num)'] = 'welcome/get_customer/$1';
 $route['customer/submit'] = 'welcome/submit_customer';
 
+// Billing Routes
+$route['billing_recipt'] = 'welcome/billing_recipt';
+$route['expense_details'] = 'welcome/expense_details';
+$route['salary_advance'] = 'welcome/salary_advance';
+$route['employee_salary'] = 'welcome/employee_salary';
+
 // Legacy Routes (for backward compatibility)
 $route['registered_plot'] = 'welcome/registered_plot';
 $route['garden_profile'] = 'welcome/garden_profile';

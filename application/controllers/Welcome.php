@@ -741,4 +741,33 @@ class Welcome extends CI_Controller {
         $this->load->view('customer/add_customer');
         $this->load->view('others/footer');
     }
+
+    // Billing Controller Methods
+    public function billing_recipt() {
+        $data['theme'] = $this->Theme_model->get_theme_path();
+        $this->load->view('others/header', $data);
+        $this->load->view('billing/billing_recipt');
+        $this->load->view('others/footer');
+    }
+
+    public function expense_details() {
+        $data['theme'] = $this->Theme_model->get_theme_path();
+        $this->load->view('others/header', $data);
+        $this->load->view('billing/expense_details');
+        $this->load->view('others/footer');
+    }
+
+    public function salary_advance() {
+        $data['theme'] = $this->Theme_model->get_theme_path();
+        $this->load->view('others/header', $data);
+        $this->load->view('billing/salary_advance');
+        $this->load->view('others/footer');
+    }
+
+    public function employee_salary() {
+        $data['theme'] = $this->Theme_model->get_theme_path();
+        $this->load->view('others/header', $data);
+        $this->load->view('billing/employee_salary');
+        $this->load->view('others/footer');
+    }
 }

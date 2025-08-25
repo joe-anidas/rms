@@ -93,22 +93,16 @@
           <a class="dropdown-item" href="<?php echo base_url('booked_plots'); ?>">Booked Plots</a>
         </div>
       </li>
-      <!-- <li class="nav-item dropdown">
+      <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="zmdi zmdi-home"></i> <span>Billing & Accounts</span></a>
         <div class="dropdown-menu" aria-labelledby="dropdown02">
-          <a class="dropdown-item" href="#">Custumor Receipt</a>
-          <a class="dropdown-item" href="#">Expense</a>
-          <a class="dropdown-item" href="#">Salary Advance Info</a>
-          <a class="dropdown-item" href="#">Staff Salary Info</a>
+          <a class="dropdown-item" href="<?php echo base_url('billing_recipt'); ?>">Customer Receipt</a>
+          <a class="dropdown-item" href="<?php echo base_url('expense_details'); ?>">Expense</a>
+          <a class="dropdown-item" href="<?php echo base_url('salary_advance'); ?>">Salary Advance Info</a>
+          <a class="dropdown-item" href="<?php echo base_url('employee_salary'); ?>">Staff Salary Info</a>
         </div>
       </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="zmdi zmdi-home"></i> <span>Offer Desk</span></a>
-        <div class="dropdown-menu" aria-labelledby="dropdown03">
-          <a class="dropdown-item" href="#">Add Offer</a>
-          <a class="dropdown-item" href="#">Offer Incentives</a>
-        </div>
-      </li> -->
+   
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i class="zmdi zmdi-format-list-bulleted"></i> <span>Customer/Buyer Info</span>
