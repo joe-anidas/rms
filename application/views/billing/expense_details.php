@@ -38,6 +38,10 @@
                         <div class="input-group">
                             <select class="form-control" name="expense_type" required>
                                 <option value="">Select Expense</option>
+                                <option value="Maintenance" selected>Maintenance</option>
+                                <option value="Utilities">Utilities</option>
+                                <option value="Repairs">Repairs</option>
+                                <option value="Other">Other</option>
                                 <!-- Dynamic options go here -->
                             </select>
                             <div class="input-group-append">
@@ -50,7 +54,7 @@
                     <div class="form-group">
                         <label>Expense <span class="text-danger">*</span></label>
                         <div class="input-group">
-                            <input type="number" class="form-control" name="expense_amount" placeholder="Expense" step="0.01" min="0" required>
+                            <input type="number" class="form-control" name="expense_amount" placeholder="Expense" step="0.01" min="0" value="0.00" required>
                             <div class="input-group-append">
                                 <span class="input-group-text"><i class="fa fa-caret-down"></i></span>
                             </div>
@@ -62,7 +66,7 @@
                 <div class="col-12">
                     <div class="form-group">
                         <label>Description <span class="text-danger">*</span></label>
-                        <textarea class="form-control" name="description" placeholder="Description" rows="3" required></textarea>
+                        <textarea class="form-control" name="description" placeholder="Description" rows="3" required>General maintenance and upkeep expenses</textarea>
                     </div>
                 </div>
             </div>

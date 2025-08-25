@@ -22,7 +22,7 @@
           <div class="row row-group m-0">
             <div class="col-12 col-lg-4">
               <div class="form-group">
-                <input type="text" class="form-control" id="reg-0026" placeholder="S.No">
+                <input type="text" class="form-control" id="reg-0026" placeholder="S.No" value="1">
               </div>
             </div>
             <div class="col-12 col-lg-4">
@@ -34,7 +34,7 @@
             </div>
             <div class="col-12 col-lg-4">
               <div class="form-group">
-                <input type="text" class="form-control" id="plot-no" placeholder="Select Plot No">
+                <input type="text" class="form-control" id="plot-no" placeholder="Select Plot No" value="A1">
               </div>
             </div>
           </div>
@@ -42,35 +42,17 @@
           <div class="row row-group m-0">
             <div class="col-12 col-lg-4">
               <div class="form-group">
-                <input type="text" class="form-control" id="plot-extension" placeholder="Total Plot Extension in Sqft/Sqmt">
+                <input type="text" class="form-control" id="plot-extension" placeholder="Total Plot Extension in Sqft/Sqmt" value="1200">
               </div>
             </div>
             <div class="col-12 col-lg-4">
               <div class="form-group">
-                <input type="text" class="form-control" id="doc-number" placeholder="Plot Registration Document Number">
+                <input type="text" class="form-control" id="doc-number" placeholder="Plot Registration Document Number" value="DOC001">
               </div>
             </div>
             <div class="col-12 col-lg-4">
               <div class="form-group">
-                <input type="text" class="form-control" id="reg-date" placeholder="Plot Registration Date">
-              </div>
-            </div>
-          </div>
-
-          <div class="row row-group m-0">
-            <div class="col-12 col-lg-4">
-              <div class="form-group">
-                <input type="text" class="form-control" id="patta-chitta" placeholder="Patta/Chitta No">
-              </div>
-            </div>
-            <div class="col-12 col-lg-4">
-              <div class="form-group">
-                <input type="text" class="form-control" id="ts-no" placeholder="T.S.No">
-              </div>
-            </div>
-            <div class="col-12 col-lg-4">
-              <div class="form-group">
-                <input type="text" class="form-control" id="ward-block" placeholder="Ward/Block">
+                <input type="text" class="form-control" id="reg-date" placeholder="Plot Registration Date" value="<?= date('Y-m-d') ?>">
               </div>
             </div>
           </div>
@@ -78,7 +60,25 @@
           <div class="row row-group m-0">
             <div class="col-12 col-lg-4">
               <div class="form-group">
-                <input type="text" class="form-control" id="plot-rate" placeholder="Plot Rate/Sqft">
+                <input type="text" class="form-control" id="patta-chitta" placeholder="Patta/Chitta No" value="PC001">
+              </div>
+            </div>
+            <div class="col-12 col-lg-4">
+              <div class="form-group">
+                <input type="text" class="form-control" id="ts-no" placeholder="T.S.No" value="TS001">
+              </div>
+            </div>
+            <div class="col-12 col-lg-4">
+              <div class="form-group">
+                <input type="text" class="form-control" id="ward-block" placeholder="Ward/Block" value="Ward 1">
+              </div>
+            </div>
+          </div>
+
+          <div class="row row-group m-0">
+            <div class="col-12 col-lg-4">
+              <div class="form-group">
+                <input type="text" class="form-control" id="plot-rate" placeholder="Plot Rate/Sqft" value="500">
               </div>
             </div>
             <div class="col-12 col-lg-4">
@@ -90,7 +90,7 @@
             </div>
             <div class="col-12 col-lg-4">
               <div class="form-group">
-                <input type="text" class="form-control" id="alt-phone" placeholder="Alternative Phone Number">
+                <input type="text" class="form-control" id="alt-phone" placeholder="Alternative Phone Number" value="9876543210">
               </div>
             </div>
           </div>

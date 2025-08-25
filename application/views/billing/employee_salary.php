@@ -24,7 +24,7 @@
                     <div class="form-group">
                         <label>Salary Duration Start <span class="text-danger">*</span></label>
                         <div class="input-group">
-                            <input type="date" class="form-control" name="salary_duration_start" required>
+                            <input type="date" class="form-control" name="salary_duration_start" value="<?= date('Y-m-01') ?>" required>
                             <div class="input-group-append">
                                 <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                             </div>
@@ -36,7 +36,7 @@
                     <div class="form-group">
                         <label>Salary Duration End <span class="text-danger">*</span></label>
                         <div class="input-group">
-                            <input type="date" class="form-control" name="salary_duration_end" required>
+                            <input type="date" class="form-control" name="salary_duration_end" value="<?= date('Y-m-t') ?>" required>
                             <div class="input-group-append">
                                 <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                             </div>
@@ -69,7 +69,7 @@
                     <div class="form-group">
                         <label>Employee ID <span class="text-danger">*</span></label>
                         <div class="input-group">
-                            <input type="text" class="form-control" name="employee_id" placeholder="Employee ID" readonly required>
+                            <input type="text" class="form-control" name="employee_id" placeholder="Employee ID" value="EMP001" readonly required>
                             <div class="input-group-append">
                                 <span class="input-group-text"><i class="fa fa-caret-down"></i></span>
                             </div>
@@ -81,7 +81,7 @@
                     <div class="form-group">
                         <label>Employee ID Alt <span class="text-danger">*</span></label>
                         <div class="input-group">
-                            <input type="text" class="form-control" name="employee_id_alt" placeholder="Employee ID" readonly required>
+                            <input type="text" class="form-control" name="employee_id_alt" placeholder="Employee ID" value="EMP001" readonly required>
                             <div class="input-group-append">
                                 <span class="input-group-text"><i class="fa fa-caret-down"></i></span>
                             </div>
@@ -93,7 +93,7 @@
                     <div class="form-group">
                         <label>Net Salary Amount <span class="text-danger">*</span></label>
                         <div class="input-group">
-                            <input type="number" class="form-control" name="net_salary_amount" placeholder="Net Salary Amount" step="0.01" min="0" required>
+                            <input type="number" class="form-control" name="net_salary_amount" placeholder="Net Salary Amount" step="0.01" min="0" value="25000.00" required>
                             <div class="input-group-append">
                                 <span class="input-group-text"><i class="fa fa-caret-down"></i></span>
                             </div>
@@ -108,7 +108,7 @@
                     <div class="form-group">
                         <label>Advance Amount</label>
                         <div class="input-group">
-                            <input type="number" class="form-control" name="advance_amount" placeholder="Advance Amount" step="0.01" min="0">
+                            <input type="number" class="form-control" name="advance_amount" placeholder="Advance Amount" step="0.01" min="0" value="0.00">
                             <div class="input-group-append">
                                 <span class="input-group-text"><i class="fa fa-caret-down"></i></span>
                             </div>
@@ -120,7 +120,7 @@
                     <div class="form-group">
                         <label>Balance Amount</label>
                         <div class="input-group">
-                            <input type="number" class="form-control" name="balance_amount" placeholder="Balance Amount" step="0.01" min="0" readonly>
+                            <input type="number" class="form-control" name="balance_amount" placeholder="Balance Amount" step="0.01" min="0" value="25000.00" readonly>
                             <div class="input-group-append">
                                 <span class="input-group-text"><i class="fa fa-caret-down"></i></span>
                             </div>

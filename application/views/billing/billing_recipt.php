@@ -50,7 +50,7 @@ function old($key, $default = '') {
                         <div class="form-group">
                             <label>Date & Time <span class="text-danger">*</span></label>
                             <div class="input-group">
-                                <input type="date" class="form-control" name="date_time" value="<?= old('date_time', '2025-03-02') ?>" required>
+                                <input type="date" class="form-control" name="date_time" value="<?= old('date_time', date('Y-m-d')) ?>" required>
                                 <div class="input-group-append">
                                     <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                                 </div>
@@ -106,7 +106,7 @@ function old($key, $default = '') {
                         <div class="form-group">
                             <label>Father Name <span class="text-danger">*</span></label>
                             <div class="input-group">
-                                <input type="text" class="form-control" name="father_name" placeholder="Father Name" value="<?= old('father_name') ?>" required>
+                                <input type="text" class="form-control" name="father_name" placeholder="Father Name" value="<?= old('father_name', 'N/A') ?>" required>
                                 <div class="input-group-append">
                                     <span class="input-group-text"><i class="fa fa-caret-down"></i></span>
                                 </div>
@@ -161,7 +161,7 @@ function old($key, $default = '') {
                         <div class="form-group">
                             <label>Plot Extension in SqFt/Sqmt <span class="text-danger">*</span></label>
                             <div class="input-group">
-                                <input type="text" class="form-control" name="plot_extension" placeholder="Plot Extension in SqFt/Sqmt" value="<?= old('plot_extension') ?>" required>
+                                <input type="text" class="form-control" name="plot_extension" placeholder="Plot Extension in SqFt/Sqmt" value="<?= old('plot_extension', '1200') ?>" required>
                                 <div class="input-group-append">
                                     <span class="input-group-text"><i class="fa fa-caret-down"></i></span>
                                 </div>
@@ -173,7 +173,7 @@ function old($key, $default = '') {
                         <div class="form-group">
                             <label>Advance Amount</label>
                             <div class="input-group">
-                                <input type="number" class="form-control" name="advance_amount" step="0.01" min="0" value="<?= old('advance_amount') ?>">
+                                <input type="number" class="form-control" name="advance_amount" step="0.01" min="0" value="<?= old('advance_amount', '0.00') ?>">
                                 <div class="input-group-append">
                                     <span class="input-group-text"><i class="fa fa-caret-down"></i></span>
                                 </div>
@@ -190,7 +190,7 @@ function old($key, $default = '') {
                             <div class="input-group">
                                 <select class="form-control" name="mode_of_payment" required>
                                     <option value="">Select Mode of Payment</option>
-                                    <option value="Cash" <?= (old('mode_of_payment') == 'Cash') ? 'selected' : '' ?>>Cash</option>
+                                    <option value="Cash" <?= (old('mode_of_payment') == 'Cash' || old('mode_of_payment') == '') ? 'selected' : '' ?>>Cash</option>
                                     <option value="Bank Transfer" <?= (old('mode_of_payment') == 'Bank Transfer') ? 'selected' : '' ?>>Bank Transfer</option>
                                     <option value="Cheque" <?= (old('mode_of_payment') == 'Cheque') ? 'selected' : '' ?>>Cheque</option>
                                     <option value="UPI" <?= (old('mode_of_payment') == 'UPI') ? 'selected' : '' ?>>UPI</option>
@@ -206,7 +206,7 @@ function old($key, $default = '') {
                         <div class="form-group">
                             <label>Cash <span class="text-danger">*</span></label>
                             <div class="input-group">
-                                <input type="number" class="form-control" name="cash_amount" placeholder="Cash" step="0.01" min="0" value="<?= old('cash_amount') ?>" required>
+                                <input type="number" class="form-control" name="cash_amount" placeholder="Cash" step="0.01" min="0" value="<?= old('cash_amount', '0.00') ?>" required>
                                 <div class="input-group-append">
                                     <span class="input-group-text"><i class="fa fa-caret-down"></i></span>
                                 </div>
@@ -218,7 +218,7 @@ function old($key, $default = '') {
                         <div class="form-group">
                             <label>Balance Amount</label>
                             <div class="input-group">
-                                <input type="number" class="form-control" name="balance_amount" step="0.01" min="0" value="<?= old('balance_amount') ?>">
+                                <input type="number" class="form-control" name="balance_amount" step="0.01" min="0" value="<?= old('balance_amount', '0.00') ?>">
                                 <div class="input-group-append">
                                     <span class="input-group-text"><i class="fa fa-caret-down"></i></span>
                                 </div>
@@ -233,7 +233,7 @@ function old($key, $default = '') {
                         <div class="form-group">
                             <label>Phone Number <span class="text-danger">*</span></label>
                             <div class="input-group">
-                                <input type="tel" class="form-control" name="phone_number" placeholder="Phone Number" value="<?= old('phone_number') ?>" required>
+                                <input type="tel" class="form-control" name="phone_number" placeholder="Phone Number" value="<?= old('phone_number', '9876543210') ?>" required>
                                 <div class="input-group-append">
                                     <span class="input-group-text"><i class="fa fa-phone"></i></span>
                                 </div>
@@ -244,7 +244,7 @@ function old($key, $default = '') {
                     <div class="col-12 col-lg-6">
                         <div class="form-group">
                             <label>Address <span class="text-danger">*</span></label>
-                            <textarea class="form-control" name="address" placeholder="Address" rows="3" required><?= old('address') ?></textarea>
+                            <textarea class="form-control" name="address" placeholder="Address" rows="3" required><?= old('address', 'Enter customer address here') ?></textarea>
                         </div>
                     </div>
                 </div>

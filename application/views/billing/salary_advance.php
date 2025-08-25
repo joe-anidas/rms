@@ -41,7 +41,7 @@
                     <div class="form-group">
                         <label>Employee ID <span class="text-danger">*</span></label>
                         <div class="input-group">
-                            <input type="text" class="form-control" name="employee_id" placeholder="Employee ID" readonly required>
+                            <input type="text" class="form-control" name="employee_id" placeholder="Employee ID" value="EMP001" readonly required>
                             <div class="input-group-append">
                                 <span class="input-group-text"><i class="fa fa-caret-down"></i></span>
                             </div>
@@ -53,7 +53,7 @@
                     <div class="form-group">
                         <label>Advance Amount <span class="text-danger">*</span></label>
                         <div class="input-group">
-                            <input type="number" class="form-control" name="advance_amount" placeholder="Advance Amount" step="0.01" min="0" required>
+                            <input type="number" class="form-control" name="advance_amount" placeholder="Advance Amount" step="0.01" min="0" value="5000.00" required>
                             <div class="input-group-append">
                                 <span class="input-group-text"><i class="fa fa-caret-down"></i></span>
                             </div>
