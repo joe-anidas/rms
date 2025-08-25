@@ -88,12 +88,9 @@
         <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="zmdi zmdi-home"></i> <span>Nagar/Garden</span></a>
         <div class="dropdown-menu" aria-labelledby="dropdown01">
           <a class="dropdown-item" href="<?php echo base_url('garden_profile'); ?>">Nagar/Garden Profile</a>
-          <a class="dropdown-item" href="<?php echo base_url('plots/overview'); ?>">Plots Overview</a>
-          <a class="dropdown-item" href="<?php echo base_url('garden/details'); ?>">Garden Details</a>
-          <a class="dropdown-item" href="<?php echo base_url('registered_plot'); ?>">Register New Plot</a>
-          <a class="dropdown-item" href="<?php echo base_url('unregistered_plots'); ?>">Unsold Plots</a>
+          <a class="dropdown-item" href="<?php echo base_url('registered_plot'); ?>">Sold/Registered plot</a>
+          <a class="dropdown-item" href="<?php echo base_url('unsold_plots'); ?>">Unsold/Unregistered Plot</a>
           <a class="dropdown-item" href="<?php echo base_url('booked_plots'); ?>">Booked Plots</a>
-          <a class="dropdown-item" href="<?php echo base_url('sold_plots'); ?>">Sold Plots</a>
         </div>
       </li>
       <!-- <li class="nav-item dropdown">
@@ -119,6 +116,10 @@
         <div class="dropdown-menu" aria-labelledby="dropdown04">
           <a class="dropdown-item" href="<?php echo base_url('customer_details'); ?>">Add New Customer</a>
           <a class="dropdown-item" href="<?php echo base_url('customer_list'); ?>">View All Customers</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="<?php echo base_url('simple_test'); ?>">Simple Test</a>
+          <a class="dropdown-item" href="<?php echo base_url('db_test'); ?>">Database Test</a>
+          <a class="dropdown-item" href="<?php echo base_url('debug_customer'); ?>">Debug System</a>
         </div>
       </li>
 
@@ -130,35 +131,7 @@
           <a class="dropdown-item" href="<?php echo base_url('staff_details'); ?>">Add New Staff</a>
           <a class="dropdown-item" href="<?php echo base_url('staff_list'); ?>">View All Staff</a>
         </div>
-      </li>
-
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="dropdown06" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="zmdi zmdi-money"></i> <span>Transactions & Payments</span>
-        </a>
-        <div class="dropdown-menu" aria-labelledby="dropdown06">
-          <a class="dropdown-item" href="<?php echo base_url('transactions/record_payment'); ?>">Record Payment</a>
-          <a class="dropdown-item" href="<?php echo base_url('transactions/payment_schedules'); ?>">Payment Schedules</a>
-          <a class="dropdown-item" href="<?php echo base_url('transactions/create_schedule'); ?>">Create Schedule</a>
-          <a class="dropdown-item" href="<?php echo base_url('transactions/pending_payments'); ?>">Pending Payments</a>
-          <a class="dropdown-item" href="<?php echo base_url('transactions'); ?>">All Transactions</a>
-        </div>
-      </li>
-
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="dropdown07" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="zmdi zmdi-chart"></i> <span>Reports & Analytics</span>
-        </a>
-        <div class="dropdown-menu" aria-labelledby="dropdown07">
-          <a class="dropdown-item" href="<?php echo base_url('reports'); ?>">Dashboard Summary</a>
-          <a class="dropdown-item" href="<?php echo base_url('reports/sales_report'); ?>">Sales Report</a>
-          <a class="dropdown-item" href="<?php echo base_url('reports/booking_report'); ?>">Booking Report</a>
-          <a class="dropdown-item" href="<?php echo base_url('reports/customer_analytics'); ?>">Customer Analytics</a>
-          <a class="dropdown-item" href="<?php echo base_url('reports/property_performance'); ?>">Property Performance</a>
-          <a class="dropdown-item" href="<?php echo base_url('reports/staff_performance'); ?>">Staff Performance</a>
-          <a class="dropdown-item" href="<?php echo base_url('reports/financial_summary'); ?>">Financial Summary</a>
-        </div>
-      </li>
+      </li> 
     </ul>
 
 
