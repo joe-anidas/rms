@@ -131,7 +131,7 @@
             </div>
             
             <div class="row row-group m-0">
-                <div class="col-12">
+                <div class="col-12 text-center">
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary btn-lg px-5">
                             <i class="fa fa-save mr-2"></i>Submit Customer Details

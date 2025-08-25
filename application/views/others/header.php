@@ -110,10 +110,6 @@
         <div class="dropdown-menu" aria-labelledby="dropdown04">
           <a class="dropdown-item" href="<?php echo base_url('customer_details'); ?>">Add New Customer</a>
           <a class="dropdown-item" href="<?php echo base_url('customer_list'); ?>">View All Customers</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="<?php echo base_url('simple_test'); ?>">Simple Test</a>
-          <a class="dropdown-item" href="<?php echo base_url('db_test'); ?>">Database Test</a>
-          <a class="dropdown-item" href="<?php echo base_url('debug_customer'); ?>">Debug System</a>
         </div>
       </li>
 

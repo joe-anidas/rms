@@ -101,13 +101,3 @@ $route['staff_details'] = 'welcome/staff_details';
 $route['submit_staff'] = 'welcome/submit_staff';
 $route['staff_list'] = 'welcome/staff_list';
 $route['get_staff/(:num)'] = 'welcome/get_staff/$1';
-
-// Utility/Test Routes
-$route['debug_customer'] = 'welcome/debug_customer';
-$route['simple_test'] = 'welcome/simple_test';
-$route['db_test'] = 'welcome/db_test';
-$route['check_table_exists'] = 'welcome/check_table_exists';
-$route['test_db_connection'] = 'welcome/test_db_connection';
-$route['create_customers_table'] = 'welcome/create_customers_table';
-$route['get_all_customers'] = 'welcome/get_all_customers';
-$route['test-customer'] = 'welcome/test_customer';

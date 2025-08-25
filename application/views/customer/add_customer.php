@@ -94,7 +94,7 @@
                                     </div>
                                 </div>
                                 <div class="row mt-4">
-                                    <div class="col-12">
+                                    <div class="col-12 text-center">
                                         <button type="submit" class="btn btn-success px-5">Add Customer</button>
                                         <a href="<?php echo base_url('customer/list'); ?>" class="btn btn-secondary px-5 ms-2">Cancel</a>
                                     </div>

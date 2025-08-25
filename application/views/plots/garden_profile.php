@@ -384,11 +384,8 @@
 
 <!-- Final Action Buttons -->
 <div class="row mt-3">
-    <div class="col-6">
-        <button class="btn btn-light btn-block"><i class="fa fa-arrow-left mr-2"></i> Previous</button>
-    </div>
-    <div class="col-6">
-        <button type="button" class="btn btn-primary btn-block" onclick="submitGardenProfile()">Submit <i class="fa fa-check ml-2"></i></button>
+    <div class="col-12 text-center">
+        <button type="button" class="btn btn-primary btn-lg px-5" onclick="submitGardenProfile()">Submit <i class="fa fa-check ml-2"></i></button>
     </div>
 </div>
 

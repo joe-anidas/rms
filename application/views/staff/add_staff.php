@@ -77,7 +77,7 @@
                                     </div>
                                 </div>
                                 <div class="row mt-4">
-                                    <div class="col-12">
+                                    <div class="col-12 text-center">
                                         <button type="submit" class="btn btn-primary px-5">Add Staff Member</button>
                                         <a href="<?php echo base_url('staff/list'); ?>" class="btn btn-secondary px-5 ms-2">Cancel</a>
                                     </div>

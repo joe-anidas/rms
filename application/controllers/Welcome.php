@@ -132,9 +132,6 @@ class Welcome extends CI_Controller {
         }
     }
 
-    public function test_customer() {
-        $this->load->view('test_customer');
-    }
 
     public function customer_list() {
         try {
@@ -175,116 +172,19 @@ class Welcome extends CI_Controller {
         echo json_encode($response);
     }
 
-    public function debug_customer() {
-        $this->load->view('debug_customer');
-    }
+    // debug_customer removed
 
-    public function simple_test() {
-        $this->load->view('simple_test');
-    }
+    // simple_test removed
 
-    public function test_db_connection() {
-        try {
-            // Test basic connection
-            $this->db->simple_query('SELECT 1');
-            
-            // Test if we can access the database
-            $db_name = $this->db->database;
-            error_log('Connected to database: ' . $db_name);
-            
-            // Test table creation
-            $table_result = $this->Customer_model->create_customer_table();
-            error_log('Table creation test result: ' . ($table_result ? 'success' : 'failed'));
-            
-            $response = array(
-                'status' => 'success',
-                'message' => 'Database connection successful. Database: ' . $db_name . '. Table creation: ' . ($table_result ? 'success' : 'failed')
-            );
-        } catch (Exception $e) {
-            error_log('Database connection error: ' . $e->getMessage());
-            $response = array(
-                'status' => 'error',
-                'message' => 'Database connection failed: ' . $e->getMessage()
-            );
-        }
-        
-        header('Content-Type: application/json');
-        echo json_encode($response);
-    }
+    // test_db_connection removed
 
-    public function create_customers_table() {
-        try {
-            $result = $this->Customer_model->create_customer_table();
-            if ($result) {
-                $response = array(
-                    'status' => 'success',
-                    'message' => 'Customers table created successfully'
-                );
-            } else {
-                $response = array(
-                    'status' => 'error',
-                    'message' => 'Failed to create customers table'
-                );
-            }
-        } catch (Exception $e) {
-            $response = array(
-                'status' => 'error',
-                'message' => 'Error creating table: ' . $e->getMessage()
-            );
-        }
-        
-        header('Content-Type: application/json');
-        echo json_encode($response);
-    }
+    // create_customers_table removed
 
-    public function get_all_customers() {
-        try {
-            $customers = $this->Customer_model->get_all_customers();
-            $response = array(
-                'status' => 'success',
-                'customers' => $customers
-            );
-        } catch (Exception $e) {
-            $response = array(
-                'status' => 'error',
-                'message' => 'Error fetching customers: ' . $e->getMessage()
-            );
-        }
-        
-        header('Content-Type: application/json');
-        echo json_encode($response);
-    }
+    // get_all_customers removed
 
-    public function db_test() {
-        $this->load->view('db_test');
-    }
+    // db_test removed
 
-    public function check_table_exists() {
-        try {
-            $table_exists = $this->db->table_exists('customers');
-            if ($table_exists) {
-                // Check table structure
-                $fields = $this->db->list_fields('customers');
-                $response = array(
-                    'status' => 'success',
-                    'message' => 'Table customers exists with ' . count($fields) . ' fields: ' . implode(', ', $fields)
-                );
-            } else {
-                $response = array(
-                    'status' => 'error',
-                    'message' => 'Table customers does not exist'
-                );
-            }
-        } catch (Exception $e) {
-            $response = array(
-                'status' => 'error',
-                'message' => 'Error checking table: ' . $e->getMessage()
-            );
-        }
-        
-        header('Content-Type: application/json');
-        echo json_encode($response);
-    }
+    // check_table_exists removed
 
     // Staff Management Methods
     public function submit_staff() {
